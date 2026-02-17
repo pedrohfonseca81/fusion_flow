@@ -9,7 +9,6 @@ defmodule FusionFlowWeb.Components.ChatComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <!-- Floating Button -->
       <%= unless @open do %>
         <button
           phx-click={@on_toggle}
@@ -32,9 +31,8 @@ defmodule FusionFlowWeb.Components.ChatComponent do
           </svg>
         </button>
       <% end %>
-      <!-- Sidebar -->
+      
       <div class={"fixed top-0 right-0 h-full w-[20%] bg-white dark:bg-gray-900 shadow-2xl z-40 transform transition-transform duration-300 ease-in-out flex flex-col border-l border-gray-200 dark:border-gray-800 " <> if(@open, do: "translate-x-0", else: "translate-x-full")}>
-        <!-- Header -->
         <div class="p-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between bg-gray-50 dark:bg-gray-800/50">
           <div class="flex items-center gap-2">
             <div class="w-8 h-8 rounded bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
@@ -77,8 +75,8 @@ defmodule FusionFlowWeb.Components.ChatComponent do
             </svg>
           </button>
         </div>
-        <!-- Messages Area -->
-        <div class="flex-1 overflow-y-auto p-4 space-y-4" id="chat-messages" phx-update="append">
+        
+        <div class="flex-1 overflow-y-auto p-4 space-y-4" id="chat-messages">
           <%= for {role, content} <- @messages do %>
             <div class={"flex " <> if(role == :user, do: "justify-end", else: "justify-start")}>
               <div class={"max-w-[85%] rounded-2xl px-4 py-3 text-sm " <>
@@ -110,7 +108,7 @@ defmodule FusionFlowWeb.Components.ChatComponent do
             </div>
           <% end %>
         </div>
-        <!-- Input Area -->
+        
         <div class="p-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
           <form phx-submit={@on_send} class="relative">
             <input
@@ -134,7 +132,7 @@ defmodule FusionFlowWeb.Components.ChatComponent do
               </svg>
             </button>
           </form>
-          <!-- Model Selector -->
+          
           <div class="mt-3 flex justify-center">
             <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-xs text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
               <svg

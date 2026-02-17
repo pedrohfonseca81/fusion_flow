@@ -95,18 +95,18 @@ defmodule FusionFlowWeb.FlowLive do
               socket
               |> assign(current_flow: updated_flow, has_changes: false)
               |> put_flash(:error, "Flow saved, but execution failed: #{error_msg}")
-              |> push_event("highlight_node_error", %{
-                nodeId: to_string(node_id),
-                message: error_msg
-              })
+
+            socket =
+              if node_id do
+                push_event(socket, "highlight_node_error", %{
+                  nodeId: to_string(node_id),
+                  message: error_msg
+                })
+              else
+                socket
+              end
 
             {:noreply, socket}
-
-          {:error, reason} ->
-            {:noreply,
-             socket
-             |> assign(current_flow: updated_flow, has_changes: false)
-             |> put_flash(:error, "Flow saved, but execution failed: #{inspect(reason)}")}
         end
 
       {:error, _changeset} ->
@@ -151,7 +151,6 @@ defmodule FusionFlowWeb.FlowLive do
     else
       messages = socket.assigns.chat_messages ++ [{:user, content}]
 
-      # Mock AI response for now
       ai_response = "I'm the GPT-5 mini model! I see you said: #{content}"
       messages = messages ++ [{:ai, ai_response}]
 
@@ -221,9 +220,8 @@ defmodule FusionFlowWeb.FlowLive do
         socket
       end
 
-    # Check for code fields to update inputs/outputs
     socket =
-      Enum.reduce(config_data, socket, fn {key, value}, acc_socket ->
+      Enum.reduce(config_data, socket, fn {_key, value}, acc_socket ->
         if String.starts_with?(value, "ui do") do
           case FusionFlow.CodeParser.parse_ui_definition(value) do
             {:ok, ui_fields} ->
@@ -395,6 +393,31 @@ defmodule FusionFlowWeb.FlowLive do
   end
 
   @impl true
+  def handle_event("show_error_details", %{"nodeId" => node_id, "message" => message}, socket) do
+    {:noreply,
+     assign(socket,
+       error_modal_open: true,
+       current_error_node_id: node_id,
+       current_error_message: message
+     )}
+  end
+
+  @impl true
+  def handle_event("close_error_modal", _params, socket) do
+    {:noreply,
+     assign(socket,
+       error_modal_open: false,
+       current_error_node_id: nil,
+       current_error_message: nil
+     )}
+  end
+
+  @impl true
+  def handle_event("close_result_modal", _params, socket) do
+    {:noreply, assign(socket, show_result_modal: false)}
+  end
+
+  @impl true
   def handle_info({:dep_log, message}, socket) do
     current_logs = socket.assigns.terminal_logs
     full_log_check = Enum.join(current_logs ++ [message])
@@ -447,31 +470,6 @@ defmodule FusionFlowWeb.FlowLive do
      socket
      |> put_flash(:error, "Failed to install #{name}: #{inspect(reason)}")
      |> assign(installing_dep: nil)}
-  end
-
-  @impl true
-  def handle_event("show_error_details", %{"nodeId" => node_id, "message" => message}, socket) do
-    {:noreply,
-     assign(socket,
-       error_modal_open: true,
-       current_error_node_id: node_id,
-       current_error_message: message
-     )}
-  end
-
-  @impl true
-  def handle_event("close_error_modal", _params, socket) do
-    {:noreply,
-     assign(socket,
-       error_modal_open: false,
-       current_error_node_id: nil,
-       current_error_message: nil
-     )}
-  end
-
-  @impl true
-  def handle_event("close_result_modal", _params, socket) do
-    {:noreply, assign(socket, show_result_modal: false)}
   end
 
   @impl true
@@ -1306,6 +1304,7 @@ defmodule FusionFlowWeb.FlowLive do
           </div>
         </div>
       <% end %>
+      
       <.live_component
         module={FusionFlowWeb.Components.ChatComponent}
         id="chat-interface"
