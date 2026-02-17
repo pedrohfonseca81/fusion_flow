@@ -1,13 +1,10 @@
 import "phoenix_html"
 import { Socket } from "phoenix"
 import { LiveSocket } from "phoenix_live_view"
-import { hooks as colocatedHooks } from "phoenix-colocated/fusion_flow"
 import topbar from "../vendor/topbar"
-import { createEditor } from "./rete_editor"
 import { CodeEditorHook } from "./code_editor"
 
 const hooks = {
-  ...colocatedHooks,
   CodeEditor: CodeEditorHook,
   Rete: {
     async mounted() {

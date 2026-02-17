@@ -43,6 +43,27 @@ Whether you are automating simple tasks or orchestrating complex microservices, 
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
+### Installation (Docker)
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/pedrohfonseca81/fusion_flow.git
+    cd fusion_flow
+    ```
+
+2.  **Start with Docker Compose:**
+    ```bash
+    docker compose up -d --build
+    ```
+    This command will automatically:
+    - Build the application image.
+    - Start the database (Postgres).
+    - Run necessary migrations.
+    - Start the server.
+
+3.  **Access the application:**
+    Visit [`localhost:4000`](http://localhost:4000).
+
 ## 🛠️ Contributing
 
 We welcome contributions to FusionFlow! Whether you're fixing bugs, adding new node types, or improving documentation, your help is appreciated.

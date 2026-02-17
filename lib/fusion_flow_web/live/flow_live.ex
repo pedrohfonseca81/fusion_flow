@@ -33,7 +33,10 @@ defmodule FusionFlowWeb.FlowLive do
        current_error_message: nil,
        current_error_message: nil,
        current_error_node_id: nil,
-       available_variables: []
+       current_error_node_id: nil,
+       available_variables: [],
+       chat_open: false,
+       chat_messages: []
      )}
   end
 
@@ -134,6 +137,26 @@ defmodule FusionFlowWeb.FlowLive do
        current_language: language,
        available_variables: variables
      )}
+  end
+
+  @impl true
+  def handle_event("toggle_chat", _params, socket) do
+    {:noreply, assign(socket, chat_open: !socket.assigns.chat_open)}
+  end
+
+  @impl true
+  def handle_event("send_message", %{"content" => content}, socket) do
+    if content == "" do
+      {:noreply, socket}
+    else
+      messages = socket.assigns.chat_messages ++ [{:user, content}]
+
+      # Mock AI response for now
+      ai_response = "I'm the GPT-5 mini model! I see you said: #{content}"
+      messages = messages ++ [{:ai, ai_response}]
+
+      {:noreply, assign(socket, chat_messages: messages)}
+    end
   end
 
   def handle_event("open_code_editor", %{"nodeId" => node_id, "code" => code}, socket) do
@@ -1283,6 +1306,14 @@ defmodule FusionFlowWeb.FlowLive do
           </div>
         </div>
       <% end %>
+      <.live_component
+        module={FusionFlowWeb.Components.ChatComponent}
+        id="chat-interface"
+        open={@chat_open}
+        messages={@chat_messages}
+        on_toggle="toggle_chat"
+        on_send="send_message"
+      />
     </div>
     """
   end

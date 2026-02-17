@@ -1,11 +1,28 @@
 services:
+  app:
+    build: .
+    image: fusion_flow:latest
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - POOL_SIZE=10
+      - DATABASE_URL=ecto://postgres:postgres@db/fusion_flow
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - PHX_HOST=localhost
+      - PORT=4000
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+
   db:
     image: postgres:17-alpine
-    container_name: fusion_flow_db
+    container_name: fusion_flow
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: fusion_flow_dev
+      POSTGRES_DB: fusion_flow
     ports:
       - "5432:5432"
     volumes:
