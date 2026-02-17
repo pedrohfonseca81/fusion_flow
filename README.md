@@ -73,6 +73,17 @@ We welcome contributions to FusionFlow! Whether you're fixing bugs, adding new n
 
 The following features are planned for future releases:
 
+- [x] **Visual Flow Execution**:
+    - [x] **Run Button**: Execute flows directly from the editor.
+    - [x] **Real-time Feedback**: Visual error highlighting and execution results.
+    - [x] **Execution Persistence**: Log execution context to Postgres via `Output` node.
+
+- [x] **Developer Experience**:
+    - [x] **Variable Node**: Define and use global variables easy.
+    - [x] **Smart Autocomplete**: Context-aware variable suggestions in code editors.
+    - [x] **Error Visualization**: Detailed error modals and node validation.
+    - [ ] **AI Assistant**: Embedded chat interface for assistance.
+
 - [ ] **Multi-Language Runtime Support**:
     - [ ] **Python Runner**: Execute Python scripts natively within flows.
     - [ ] **JavaScript/Node.js Runner**: Run JS code for logic and data manipulation.
@@ -84,7 +95,6 @@ The following features are planned for future releases:
 
 - [ ] **Execution Engine Integration**:
     - [ ] Integrate [Oban](https://github.com/sorentwo/oban) for reliable background job processing.
-    - [ ] Implement the `FlowRunner` to traverse and execute the graph based on node handlers.
     - [ ] Add support for "awaiting" asynchronous events (e.g., Webhook callbacks).
 
 - [ ] **Dynamic Supervision**:
@@ -107,7 +117,6 @@ The following features are planned for future releases:
 
 - [ ] **Monitoring & Analytics**:
     - [ ] Dashboard for execution metrics (success/failure rates, duration).
-    - [ ] Visual execution trace (highlighting active path in the editor).
 
 - [ ] **Deployment & Distribution**:
     - [ ] **Official Docker Image**: Publish to Docker Hub.
