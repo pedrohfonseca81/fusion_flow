@@ -1,0 +1,14 @@
+{
+    "name": "fusion_flow",
+    "version": "1.0.0",
+    "description": "FusionFlow assets",
+    "main": "js/app.js",
+    "dependencies": {
+        "rete": "^2.0.0",
+        "rete-area-plugin": "^2.0.0",
+        "rete-connection-plugin": "^2.0.0",
+        "@retejs/lit-plugin": "^2.0.0",
+        "lit": "^3.1.0"
+    },
+    "devDependencies": {}
+}
