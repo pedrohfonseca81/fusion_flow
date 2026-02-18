@@ -262,7 +262,11 @@ export class CustomNodeElement extends LitElement {
   render() {
     const inputs = Object.entries(this.data.inputs);
     const outputs = Object.entries(this.data.outputs);
-    const controls = Object.entries(this.data.controls);
+    const controls = Object.entries(this.data.controls).filter(([key, control]) => {
+      if (control.type === 'hidden') return false;
+      if (['code_elixir', 'code_python', 'input'].includes(key)) return false;
+      return true;
+    });
 
     return html`
         <div 

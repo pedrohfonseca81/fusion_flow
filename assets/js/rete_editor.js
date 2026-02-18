@@ -219,8 +219,11 @@ export async function createEditor(container) {
                             return Array.from(variables);
                         };
 
+                        const language = node.controls.language?.value || control.language;
+                        const code_elixir = node.controls.code_elixir?.value || '';
+                        const code_python = node.controls.code_python?.value || '';
                         const variables = getUpstreamVariables(node.id);
-                        editor.triggerCodeEdit(node.id, node.controls[field.name].value, field.name, control.language, variables);
+                        editor.triggerCodeEdit(node.id, code_elixir, code_python, field.name, language, variables);
                     }
                 };
             } else {
@@ -231,6 +234,22 @@ export async function createEditor(container) {
 
             node.addControl(field.name, control);
         });
+
+        // Restore code_elixir and code_python controls if they exist in saved data
+        if (data && data.controls) {
+            if (data.controls.code_elixir !== undefined && !node.controls.code_elixir) {
+                const ctrl = new ClassicPreset.InputControl("text", { initial: data.controls.code_elixir });
+                ctrl.value = data.controls.code_elixir;
+                ctrl.type = 'hidden';
+                node.addControl('code_elixir', ctrl);
+            }
+            if (data.controls.code_python !== undefined && !node.controls.code_python) {
+                const ctrl = new ClassicPreset.InputControl("text", { initial: data.controls.code_python });
+                ctrl.value = data.controls.code_python;
+                ctrl.type = 'hidden';
+                node.addControl('code_python', ctrl);
+            }
+        }
 
         await editor.addNode(node);
 
@@ -302,13 +321,19 @@ export async function createEditor(container) {
         onErrorDetails: (cb) => {
             editor.triggerErrorDetails = cb;
         },
-        updateNodeCode: async (nodeId, code, fieldName) => {
+        updateNodeCode: async (nodeId, code_elixir, code_python, fieldName) => {
             const node = editor.getNode(nodeId);
             if (!node) return;
 
-            if (node.controls[fieldName]) {
-                node.controls[fieldName].value = code;
+            if (!node.controls.code_elixir) {
+                node.controls.code_elixir = { value: '' };
             }
+            if (!node.controls.code_python) {
+                node.controls.code_python = { value: '' };
+            }
+
+            node.controls.code_elixir.value = code_elixir;
+            node.controls.code_python.value = code_python;
 
             await area.update('node', nodeId);
             processChange();

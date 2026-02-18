@@ -19,7 +19,9 @@ defmodule FusionFlowWeb.FlowLive do
        pending_restart_deps: [],
        installing_dep: nil,
        current_node_id: nil,
-       current_code: "",
+       current_code_elixir: "",
+       current_code_python: "",
+       current_code_tab: "elixir",
        current_field_name: nil,
        current_language: "elixir",
        config_modal_open: false,
@@ -38,7 +40,8 @@ defmodule FusionFlowWeb.FlowLive do
        chat_open: false,
        chat_messages: [],
        pending_ai_trigger: false,
-       chat_loading: false
+       chat_loading: false,
+       ai_configured: System.get_env("OPENAI_API_KEY") not in [nil, ""]
      )}
   end
 
@@ -124,17 +127,23 @@ defmodule FusionFlowWeb.FlowLive do
   @impl true
   def handle_event(
         "open_code_editor",
-        %{"nodeId" => node_id, "code" => code, "fieldName" => field_name, "language" => language} =
+        %{"nodeId" => node_id, "fieldName" => field_name, "language" => language} =
           params,
         socket
       ) do
     variables = params["variables"] || []
 
+    # Load both code_elixir and code_python from params if available
+    code_elixir = params["code_elixir"] || params["code"] || ""
+    code_python = params["code_python"] || ""
+
     {:noreply,
      assign(socket,
        modal_open: true,
        current_node_id: node_id,
-       current_code: code,
+       current_code_elixir: code_elixir,
+       current_code_python: code_python,
+       current_code_tab: language,
        current_field_name: field_name,
        current_language: language,
        available_variables: variables
@@ -346,10 +355,19 @@ defmodule FusionFlowWeb.FlowLive do
         %{"field-name" => field_name, "code" => code, "language" => language},
         socket
       ) do
+    # Determine which code field to populate based on language
+    {code_elixir, code_python} =
+      case language do
+        "python" -> {"", code}
+        _ -> {code, ""}
+      end
+
     {:noreply,
      assign(socket,
        modal_open: true,
-       current_code: code,
+       current_code_elixir: code_elixir,
+       current_code_python: code_python,
+       current_code_tab: language,
        current_field_name: field_name,
        current_language: language
      )}
@@ -435,18 +453,28 @@ defmodule FusionFlowWeb.FlowLive do
   end
 
   @impl true
+  def handle_event("switch_code_tab", %{"tab" => tab}, socket) do
+    {:noreply, assign(socket, current_code_tab: tab)}
+  end
+
+  @impl true
   def handle_event("close_modal", _params, socket) do
     {:noreply,
      assign(socket,
        modal_open: false,
        current_node_id: nil,
-       current_code: "",
+       current_code_elixir: "",
+       current_code_python: "",
        current_field_name: nil
      )}
   end
 
   @impl true
-  def handle_event("save_code", %{"code" => code}, socket) do
+  def handle_event(
+        "save_code",
+        %{"code_elixir" => code_elixir, "code_python" => code_python},
+        socket
+      ) do
     node_id = socket.assigns.current_node_id
     field_name = socket.assigns.current_field_name
 
@@ -455,26 +483,31 @@ defmodule FusionFlowWeb.FlowLive do
         editing_node_data = socket.assigns.editing_node_data
 
         updated_node_data =
-          put_in(
-            editing_node_data,
-            ["controls", field_name, "value"],
-            code
-          )
+          editing_node_data
+          |> put_in(["controls", "code_elixir", "value"], code_elixir)
+          |> put_in(["controls", "code_python", "value"], code_python)
 
         socket
         |> assign(
           modal_open: false,
-          current_code: "",
+          current_code_elixir: "",
+          current_code_python: "",
           current_field_name: nil,
           editing_node_data: updated_node_data
         )
       else
         socket
-        |> push_event("update_node_code", %{nodeId: node_id, code: code, fieldName: field_name})
+        |> push_event("update_node_code", %{
+          nodeId: node_id,
+          code_elixir: code_elixir,
+          code_python: code_python,
+          fieldName: field_name
+        })
         |> assign(
           modal_open: false,
           current_node_id: nil,
-          current_code: "",
+          current_code_elixir: "",
+          current_code_python: "",
           current_field_name: nil
         )
       end
@@ -858,13 +891,30 @@ defmodule FusionFlowWeb.FlowLive do
             </div>
             
             <div class="flex border-b border-gray-200 dark:border-slate-700 px-6 bg-gray-50 dark:bg-slate-800/50">
-              <% {label, icon} = language_config(@current_language) %>
               <button
                 type="button"
-                class="px-4 py-3 text-sm font-medium border-b-2 -mb-px border-indigo-500 text-indigo-600 dark:text-indigo-400"
+                phx-click="switch_code_tab"
+                phx-value-tab="elixir"
+                class={"px-4 py-3 text-sm font-medium border-b-2 -mb-px #{if @current_code_tab == "elixir", do: "border-indigo-500 text-indigo-600 dark:text-indigo-400", else: "border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"}"}
               >
                 <span class="flex items-center gap-2">
-                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">{{:safe, icon}}</svg> {label}
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C8.5 6 6 10 6 14.5C6 18.09 8.69 21 12 21C15.31 21 18 18.09 18 14.5C18 10 15.5 6 12 2Z" />
+                  </svg>
+                  Elixir
+                </span>
+              </button>
+              <button
+                type="button"
+                phx-click="switch_code_tab"
+                phx-value-tab="python"
+                class={"px-4 py-3 text-sm font-medium border-b-2 -mb-px #{if @current_code_tab == "python", do: "border-indigo-500 text-indigo-600 dark:text-indigo-400", else: "border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"}"}
+              >
+                <span class="flex items-center gap-2">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+                  </svg>
+                  Python
                 </span>
               </button>
             </div>
@@ -876,12 +926,17 @@ defmodule FusionFlowWeb.FlowLive do
                 phx-update="ignore"
                 phx-hook="CodeEditor"
                 data-variables={Jason.encode!(@available_variables)}
+                data-language={@current_code_tab}
               >
                 <textarea
-                  id="code_textarea"
-                  name="code"
+                  id="code_elixir_textarea"
+                  name="code_elixir"
                   class="w-full h-full hidden"
-                ><%= @current_code %></textarea>
+                ><%= @current_code_elixir %></textarea> <textarea
+                  id="code_python_textarea"
+                  name="code_python"
+                  class="w-full h-full hidden"
+                ><%= @current_code_python %></textarea>
               </div>
               
               <div class="px-6 py-4 bg-white dark:bg-slate-800 border-t border-gray-200 dark:border-slate-700 flex justify-end gap-3 rounded-b-lg">
@@ -1481,6 +1536,7 @@ defmodule FusionFlowWeb.FlowLive do
         open={@chat_open}
         messages={@chat_messages}
         loading={@chat_loading}
+        ai_configured={@ai_configured}
         on_toggle="toggle_chat"
         on_send="send_message"
       />

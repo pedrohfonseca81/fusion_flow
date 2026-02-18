@@ -12,19 +12,19 @@ defmodule FusionFlow.Nodes.Eval do
       outputs: [:exec],
       ui_fields: [
         %{
+          type: :select,
+          name: :language,
+          label: "Language",
+          options: ["elixir", "python"],
+          default: "elixir"
+        },
+        %{
           type: :code,
           name: :code,
           label: "Code Editor",
           render: "button",
-          language: "elixir",
-          default: """
-          result =
-            input
-            |> Enum.map(& &1 * 2)
-            |> Enum.filter(&(&1 > 10))
-
-          {:ok, result}
-          """
+          language_field: :language,
+          default: ""
         }
       ]
     }
@@ -49,59 +49,29 @@ defmodule FusionFlow.Nodes.Eval do
   def handler(context, input) do
     Process.put(:fusion_flow_eval_context, context)
 
-    code = context["code"] || ""
-    code_with_imports = "import FusionFlow.Nodes.Eval; " <> code
+    # Use the selected language or default to elixir for backward compatibility
+    language = context["language"] || "elixir"
 
-    {result, diagnostics} =
-      Code.with_diagnostics(fn ->
-        try do
-          last_result = context["result"]
-          bindings = [input: input, context: context, result: last_result]
+    # Select the appropriate code field based on language
+    # Fallback to legacy "code" field for backward compatibility
+    code =
+      case language do
+        "elixir" -> context["code_elixir"] || context["code"] || ""
+        "python" -> context["code_python"] || ""
+        _ -> ""
+      end
 
-          {binding, _} = Code.eval_string(code_with_imports, bindings)
-          {:ok, binding}
-        rescue
-          e -> {:error, e}
-        catch
-          kind, reason -> {:error, {kind, reason, __STACKTRACE__}}
-        end
-      end)
+    # Inject input into context for the executor if not already there
+    context = Map.put(context, "input", input)
+
+    result =
+      case language do
+        "elixir" -> FusionFlow.Runtime.Elixir.execute(code, context)
+        "python" -> FusionFlow.Runtime.Python.execute(code, context)
+        _ -> {:error, "Unsupported language: #{language}"}
+      end
 
     Process.delete(:fusion_flow_eval_context)
-
-    case result do
-      {:ok, binding} ->
-        case binding do
-          {:ok, %{} = new_context} ->
-            {:ok, new_context}
-
-          %{} = new_context ->
-            {:ok, new_context}
-
-          other_value ->
-            {:result, other_value}
-        end
-
-      {:error, exception_or_reason} ->
-        error_message =
-          if diagnostics != [] do
-            format_diagnostics(diagnostics)
-          else
-            case exception_or_reason do
-              {kind, reason, stack} -> Exception.format(kind, reason, stack)
-              e -> Exception.message(e)
-            end
-          end
-
-        {:error, error_message}
-    end
-  end
-
-  defp format_diagnostics(diagnostics) do
-    diagnostics
-    |> Enum.map(fn diag ->
-      "Error on line #{diag.position}: #{diag.message}"
-    end)
-    |> Enum.join("\n")
+    result
   end
 end

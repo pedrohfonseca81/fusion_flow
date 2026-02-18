@@ -106,8 +106,8 @@ The following features are planned for future releases:
     - [x] **Error Visualization**: Detailed error modals and node validation.
     - [x] **AI Assistant**: Embedded chat interface for assistance.
 
-- [ ] **Multi-Language Runtime Support**:
-    - [ ] **Python Runner**: Execute Python scripts natively within flows.
+- [X] **Multi-Language Runtime Support**:
+    - [X] **Python Runner**: Execute Python scripts natively within flows.
     - [ ] **JavaScript/Node.js Runner**: Run JS code for logic and data manipulation.
 
 - [ ] **Enhanced Real-time Collaboration**:

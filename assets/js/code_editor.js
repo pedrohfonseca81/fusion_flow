@@ -1,15 +1,16 @@
 export const CodeEditorHook = {
     mounted() {
         const container = this.el;
-        const textarea = container.querySelector('textarea');
-        if (!textarea) return;
+        const elixirTextarea = container.querySelector('#code_elixir_textarea');
+        const pythonTextarea = container.querySelector('#code_python_textarea');
+
+        if (!elixirTextarea && !pythonTextarea) return;
 
         const editorContainer = document.createElement('div');
         editorContainer.style.height = '100%';
         editorContainer.style.width = '100%';
         editorContainer.style.minHeight = '400px';
 
-        textarea.style.display = 'none';
         container.appendChild(editorContainer);
 
         const currentVariables = JSON.parse(container.dataset.variables || "[]");
@@ -59,13 +60,17 @@ export const CodeEditorHook = {
                         } catch (e) {
                             console.error("Failed to register completion provider:", e);
                         }
-                    } else {
-                        // Force update if needed, but the provider pulls from global window var so it works
                     }
 
+                    // Get initial language from data attribute
+                    const currentLang = container.dataset.language || 'elixir';
+                    const initialValue = currentLang === 'python'
+                        ? (pythonTextarea ? pythonTextarea.value : '')
+                        : (elixirTextarea ? elixirTextarea.value : '');
+
                     this.editor = monaco.editor.create(editorContainer, {
-                        value: textarea.value,
-                        language: 'elixir',
+                        value: initialValue,
+                        language: currentLang,
                         theme: 'vs-dark',
                         automaticLayout: true,
                         minimap: { enabled: false },
@@ -74,10 +79,49 @@ export const CodeEditorHook = {
                         fontFamily: "'Fira Code', Consolas, 'Courier New', monospace"
                     });
 
+                    // Store current language
+                    this.currentLanguage = currentLang;
+
+                    // Update the appropriate textarea when content changes
                     this.editor.onDidChangeModelContent(() => {
-                        textarea.value = this.editor.getValue();
-                        textarea.dispatchEvent(new Event('input', { bubbles: true }));
+                        const value = this.editor.getValue();
+                        if (this.currentLanguage === 'python' && pythonTextarea) {
+                            pythonTextarea.value = value;
+                            pythonTextarea.dispatchEvent(new Event('input', { bubbles: true }));
+                        } else if (elixirTextarea) {
+                            elixirTextarea.value = value;
+                            elixirTextarea.dispatchEvent(new Event('input', { bubbles: true }));
+                        }
                     });
+
+                    // Watch for language changes via MutationObserver
+                    this.observer = new MutationObserver((mutations) => {
+                        mutations.forEach((mutation) => {
+                            if (mutation.type === 'attributes' && mutation.attributeName === 'data-language') {
+                                const newLang = container.dataset.language;
+                                if (newLang !== this.currentLanguage) {
+                                    // Save current content to appropriate textarea
+                                    const currentValue = this.editor.getValue();
+                                    if (this.currentLanguage === 'python' && pythonTextarea) {
+                                        pythonTextarea.value = currentValue;
+                                    } else if (elixirTextarea) {
+                                        elixirTextarea.value = currentValue;
+                                    }
+
+                                    // Load new language content
+                                    const newValue = newLang === 'python'
+                                        ? (pythonTextarea ? pythonTextarea.value : '')
+                                        : (elixirTextarea ? elixirTextarea.value : '');
+
+                                    this.editor.setValue(newValue);
+                                    monaco.editor.setModelLanguage(this.editor.getModel(), newLang);
+                                    this.currentLanguage = newLang;
+                                }
+                            }
+                        });
+                    });
+
+                    this.observer.observe(container, { attributes: true });
                 });
             }
         };
@@ -93,7 +137,38 @@ export const CodeEditorHook = {
         }
     },
 
+    updated() {
+        // Update data-language attribute when tab changes
+        const container = this.el;
+        const newLang = container.dataset.language;
+
+        if (this.editor && newLang && newLang !== this.currentLanguage) {
+            const elixirTextarea = container.querySelector('#code_elixir_textarea');
+            const pythonTextarea = container.querySelector('#code_python_textarea');
+
+            // Save current content
+            const currentValue = this.editor.getValue();
+            if (this.currentLanguage === 'python' && pythonTextarea) {
+                pythonTextarea.value = currentValue;
+            } else if (elixirTextarea) {
+                elixirTextarea.value = currentValue;
+            }
+
+            // Load new language content
+            const newValue = newLang === 'python'
+                ? (pythonTextarea ? pythonTextarea.value : '')
+                : (elixirTextarea ? elixirTextarea.value : '');
+
+            this.editor.setValue(newValue);
+            monaco.editor.setModelLanguage(this.editor.getModel(), newLang);
+            this.currentLanguage = newLang;
+        }
+    },
+
     destroyed() {
+        if (this.observer) {
+            this.observer.disconnect();
+        }
         if (this.editor) {
             this.editor.dispose();
         }

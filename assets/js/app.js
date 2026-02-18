@@ -41,9 +41,9 @@ const hooks = {
         }
       });
 
-      this.handleEvent("update_node_code", ({ nodeId, code, fieldName }) => {
+      this.handleEvent("update_node_code", ({ nodeId, code_elixir, code_python, fieldName }) => {
         if (editor.updateNodeCode) {
-          editor.updateNodeCode(nodeId, code, fieldName);
+          editor.updateNodeCode(nodeId, code_elixir, code_python, fieldName);
         }
       });
 
@@ -72,8 +72,8 @@ const hooks = {
       }
 
       if (editor.onCodeEdit) {
-        editor.onCodeEdit((nodeId, code, fieldName, language, variables) => {
-          this.pushEvent("open_code_editor", { nodeId, code, fieldName, language, variables });
+        editor.onCodeEdit((nodeId, code_elixir, code_python, fieldName, language, variables) => {
+          this.pushEvent("open_code_editor", { nodeId, code_elixir, code_python, fieldName, language, variables });
         });
       }
 
