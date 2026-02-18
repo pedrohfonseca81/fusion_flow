@@ -7,13 +7,19 @@ defmodule FusionFlow.Application do
 
   @impl true
   def start(_type, _args) do
-    Pythonx.uv_init("""
-    [project]
-    name = "fusion_flow"
-    version = "0.1.0"
-    requires-python = ">=3.11"
-    dependencies = []
-    """)
+    try do
+      Pythonx.uv_init("""
+      [project]
+      name = "fusion_flow"
+      version = "0.1.0"
+      requires-python = ">=3.11"
+      dependencies = []
+      """)
+    rescue
+      e ->
+        require Logger
+        Logger.warning("Pythonx init skipped: #{Exception.message(e)}")
+    end
 
     children = [
       FusionFlowWeb.Telemetry,

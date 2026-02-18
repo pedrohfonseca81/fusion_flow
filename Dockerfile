@@ -56,11 +56,14 @@ RUN chown nobody /app
 
 ENV MIX_ENV="prod"
 ENV PHX_SERVER="true"
+ENV HOME="/app"
 
 COPY --from=builder --chown=nobody:root /app/_build/prod/rel/fusion_flow ./
 
 COPY scripts/entrypoint.sh ./
-RUN chmod +x ./entrypoint.sh
+RUN sed -i 's/\r$//' ./entrypoint.sh && chmod +x ./entrypoint.sh
+
+RUN mkdir -p /app/.cache && chown -R nobody:root /app/.cache
 
 USER nobody
 
