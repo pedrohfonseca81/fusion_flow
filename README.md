@@ -1,5 +1,7 @@
 # FusionFlow
 
+[![Discord](https://img.shields.io/discord/1342308064887373844?color=7289da&label=discord&logo=discord&logoColor=white)](https://discord.gg/mYz9xnUMDC)
+
 **FusionFlow** is a powerful, low-code workflow automation platform equipped with advanced no-code capabilities. Designed for reliability and scalability, it enables users to visually design, manage, and execute complex business logic and data processing flows in real-time.
 
 Whether you are automating simple tasks or orchestrating complex microservices, FusionFlow provides the visual tools to build without boundaries.
@@ -67,29 +69,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## 🛠️ Contributing
 
-We welcome contributions to FusionFlow! Whether you're fixing bugs, adding new node types, or improving documentation, your help is appreciated.
-
-### How to Contribute
-
-1.  **Fork the repository** on GitHub.
-2.  **Clone your fork** locally.
-3.  **Create a new branch** for your feature or fix:
-    ```bash
-    git checkout -b feature/my-new-feature
-    ```
-4.  **Make your changes**. Please follow the existing code style and ensure tests pass.
-5.  **Commit your changes** with clear, descriptive messages.
-6.  **Push to your fork**:
-    ```bash
-    git push origin feature/my-new-feature
-    ```
-7.  **Open a Pull Request** against the `main` branch of the original repository.
-
-### Development Guidelines
-
--   **Node Development**: New nodes should be added to `lib/fusion_flow/nodes/`. Follow the structure of existing nodes (separated `definition/0` and `handler/2`).
--   **UI Components**: We use Phoenix LiveView for the UI. Ensure any new JS components in `assets/js` are properly integrated via hooks.
--   **Testing**: Run `mix test` to ensure no regressions.
+We love contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for more details.
 
 ## 📝 TO-DO / Roadmap
 
@@ -101,14 +81,14 @@ The following features are planned for future releases:
     - [x] **Execution Persistence**: Log execution context to Postgres via `Output` node.
 
 - [x] **Developer Experience**:
-    - [x] **Variable Node**: Define and use global variables easy.
+    - [x] **Variable Node**: Define and use global variables easily.
     - [x] **Smart Autocomplete**: Context-aware variable suggestions in code editors.
     - [x] **Error Visualization**: Detailed error modals and node validation.
     - [x] **AI Assistant**: Embedded chat interface for assistance.
     - [x] **Dashboard & Navigation**: Root dashboard with quick stats and a global sidebar for seamless navigation.
 
-- [X] **Multi-Language Runtime Support**:
-    - [X] **Python Runner**: Execute Python scripts natively within flows.
+- [x] **Multi-Language Runtime Support**:
+    - [x] **Python Runner**: Execute Python scripts natively within flows.
     - [ ] **JavaScript/Node.js Runner**: Run JS code for logic and data manipulation.
 
 - [ ] **Enhanced Real-time Collaboration**:
@@ -143,6 +123,10 @@ The following features are planned for future releases:
 
 - [ ] **Deployment & Distribution**:
     - [ ] **Official Docker Image**: Publish to Docker Hub.
+
+## 💬 Community
+
+Join our [Discord server](https://discord.gg/mYz9xnUMDC) to chat with the community, ask questions, and share your flows!
 
 ## License
 
