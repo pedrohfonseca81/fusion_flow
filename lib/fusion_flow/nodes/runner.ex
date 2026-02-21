@@ -35,29 +35,43 @@ defmodule FusionFlow.Nodes.Runner do
           {:ok, result, output_name} ->
             connections =
               flow.connections
-              |> Enum.filter(fn c -> c["source"] == node["id"] && c["sourceOutput"] == to_string(output_name) end)
+              |> Enum.filter(fn c ->
+                c["source"] == node["id"] && c["sourceOutput"] == to_string(output_name)
+              end)
+
             process_connections(connections, result, flow)
 
           {:ok, result} ->
             output_name = List.first(definition[:outputs]) || "exec"
+
             connections =
               flow.connections
-              |> Enum.filter(fn c -> c["source"] == node["id"] && c["sourceOutput"] == to_string(output_name) end)
+              |> Enum.filter(fn c ->
+                c["source"] == node["id"] && c["sourceOutput"] == to_string(output_name)
+              end)
+
             process_connections(connections, result, flow)
 
           {:result, value} ->
             output_name = List.first(definition[:outputs]) || "exec"
             new_context = Map.put(context, "result", value)
+
             connections =
               flow.connections
-              |> Enum.filter(fn c -> c["source"] == node["id"] && c["sourceOutput"] == to_string(output_name) end)
+              |> Enum.filter(fn c ->
+                c["source"] == node["id"] && c["sourceOutput"] == to_string(output_name)
+              end)
+
             process_connections(connections, new_context, flow)
 
           {:error, reason} ->
             if "error" in (definition[:outputs] || []) do
               connections =
                 flow.connections
-                |> Enum.filter(fn c -> c["source"] == node["id"] && c["sourceOutput"] == "error" end)
+                |> Enum.filter(fn c ->
+                  c["source"] == node["id"] && c["sourceOutput"] == "error"
+                end)
+
               process_connections(connections, reason, flow)
             else
               {:error, reason, to_string(node["id"])}

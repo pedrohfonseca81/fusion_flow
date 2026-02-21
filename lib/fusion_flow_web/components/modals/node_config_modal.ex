@@ -23,18 +23,28 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
               </span>
               Configure {@editing_node_data["label"]}
             </h3>
-
-            <button phx-click="close_config_modal" class="text-gray-400 hover:text-gray-500 transition-colors">
+            
+            <button
+              phx-click="close_config_modal"
+              class="text-gray-400 hover:text-gray-500 transition-colors"
+            >
               <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
-
+          
           <form phx-submit="save_node_config" class="flex-1 flex flex-col overflow-hidden">
             <div class="flex-1 p-6 overflow-y-auto space-y-6">
               <div class="space-y-2">
-                <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300">Node Name</label>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300">
+                  Node Name
+                </label>
                 <input
                   type="text"
                   name="node_label"
@@ -42,7 +52,7 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
                   class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-slate-900 dark:text-white transition-all h-10"
                 />
               </div>
-
+              
               <%= if @editing_node_data["controls"] do %>
                 <%= for {key, control} <- @editing_node_data["controls"] do %>
                   <div class="space-y-2">
@@ -57,11 +67,16 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
                         >
                           <%= for option <- (control["options"] || []) do %>
                             <%= if is_map(option) do %>
-                              <option value={option["value"]} selected={option["value"] == control["value"]}>
+                              <option
+                                value={option["value"]}
+                                selected={option["value"] == control["value"]}
+                              >
                                 {option["label"]}
                               </option>
                             <% else %>
-                              <option value={option} selected={option == control["value"]}>{option}</option>
+                              <option value={option} selected={option == control["value"]}>
+                                {option}
+                              </option>
                             <% end %>
                           <% end %>
                         </select>
@@ -71,10 +86,9 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
                           class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-slate-900 dark:text-white transition-all h-10"
                         >
                           <option value="">Select a variable...</option>
+                          
                           <%= for var <- (@editing_node_data["variables"] || []) do %>
-                            <option value={var} selected={var == control["value"]}>
-                              {var}
-                            </option>
+                            <option value={var} selected={var == control["value"]}>{var}</option>
                           <% end %>
                         </select>
                       <% "code-icon" -> %>
@@ -111,6 +125,7 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
                               {String.slice(control["value"] || "", 0, 50)}...
                             </div>
                           </div>
+                          
                           <button
                             type="button"
                             phx-click="open_code_editor_from_config"
@@ -119,7 +134,12 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
                             phx-value-language={control["language"] || "elixir"}
                             class="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm transition-all"
                           >
-                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg
+                              class="w-3.5 h-3.5"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
                               <path
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
@@ -128,8 +148,7 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
                               />
                             </svg>
                             Edit Code
-                          </button>
-                          <input type="hidden" name={key} value={control["value"]} />
+                          </button> <input type="hidden" name={key} value={control["value"]} />
                         </div>
                       <% _ -> %>
                         <%= if String.length(to_string(control["value"])) > 50 do %>
@@ -155,7 +174,7 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
                 </p>
               <% end %>
             </div>
-
+            
             <div class="px-6 py-5 bg-white dark:bg-slate-800 border-t border-gray-200 dark:border-slate-700 flex justify-end gap-3 rounded-b-lg">
               <button
                 type="button"

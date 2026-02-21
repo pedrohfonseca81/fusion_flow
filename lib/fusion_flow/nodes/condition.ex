@@ -69,20 +69,26 @@ defmodule FusionFlow.Nodes.Condition do
   defp evaluate_condition(val, "!=", target), do: to_string(val) != to_string(target)
   defp evaluate_condition(val, ">", target), do: to_number(val) > to_number(target)
   defp evaluate_condition(val, "<", target), do: to_number(val) < to_number(target)
+
   defp evaluate_condition(val, "contains", target) do
     to_string(val) |> String.contains?(to_string(target))
   end
+
   defp evaluate_condition(_, _, _), do: false
 
   defp to_number(val) do
     case val do
-      v when is_number(v) -> v
+      v when is_number(v) ->
+        v
+
       v when is_binary(v) ->
         case Float.parse(v) do
           {num, _} -> num
           _ -> 0
         end
-      _ -> 0
+
+      _ ->
+        0
     end
   end
 end

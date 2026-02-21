@@ -41,8 +41,7 @@ defmodule FusionFlowWeb.FlowLive do
        chat_loading: false,
        ai_configured: System.get_env("OPENAI_API_KEY") not in [nil, ""],
        inspecting_result: false
-     ),
-     layout: false}
+     ), layout: false}
   end
 
   @impl true
@@ -83,7 +82,8 @@ defmodule FusionFlowWeb.FlowLive do
 
   @impl true
   def handle_event("show_drag_tooltip", %{"name" => name}, socket) do
-    {:noreply, put_flash(socket, :info, "Drag and drop the '#{name}' node onto the canvas to add it.")}
+    {:noreply,
+     put_flash(socket, :info, "Drag and drop the '#{name}' node onto the canvas to add it.")}
   end
 
   @impl true
@@ -298,21 +298,22 @@ defmodule FusionFlowWeb.FlowLive do
       Enum.reduce(config_data, socket, fn {_key, value}, acc_socket ->
         if String.starts_with?(value, "ui do") do
           {:ok, ui_fields} = FusionFlow.CodeParser.parse_ui_definition(value)
-              inputs =
-                Enum.filter(ui_fields, &(&1.type == "input")) |> Enum.map(& &1.name)
 
-              outputs =
-                Enum.filter(ui_fields, &(&1.type == "output")) |> Enum.map(& &1.name)
+          inputs =
+            Enum.filter(ui_fields, &(&1.type == "input")) |> Enum.map(& &1.name)
 
-              if inputs != [] or outputs != [] do
-                push_event(acc_socket, "update_node_sockets", %{
-                  nodeId: node_id,
-                  inputs: inputs,
-                  outputs: outputs
-                })
-              else
-                acc_socket
-              end
+          outputs =
+            Enum.filter(ui_fields, &(&1.type == "output")) |> Enum.map(& &1.name)
+
+          if inputs != [] or outputs != [] do
+            push_event(acc_socket, "update_node_sockets", %{
+              nodeId: node_id,
+              inputs: inputs,
+              outputs: outputs
+            })
+          else
+            acc_socket
+          end
         else
           acc_socket
         end
@@ -369,8 +370,10 @@ defmodule FusionFlowWeb.FlowLive do
       case FusionFlow.Flows.update_flow(socket.assigns.current_flow, %{name: new_name}) do
         {:ok, updated_flow} ->
           {:noreply, assign(socket, current_flow: updated_flow, renaming_flow: false)}
+
         {:error, _} ->
-          {:noreply, assign(socket, renaming_flow: false) |> put_flash(:error, "Failed to rename flow")}
+          {:noreply,
+           assign(socket, renaming_flow: false) |> put_flash(:error, "Failed to rename flow")}
       end
     else
       {:noreply, assign(socket, renaming_flow: false)}
@@ -579,8 +582,9 @@ defmodule FusionFlowWeb.FlowLive do
 
                 # Map generic 'code' from AI to 'code_elixir' for Evaluate Code nodes
                 controls =
-                  if (node["type"] == "Evaluate Code" or node["name"] == "Evaluate Code") do
+                  if node["type"] == "Evaluate Code" or node["name"] == "Evaluate Code" do
                     code_val = controls["code"] || controls["code_elixir"]
+
                     if code_val do
                       controls
                       |> Map.put("code_elixir", code_val)
@@ -730,16 +734,17 @@ defmodule FusionFlowWeb.FlowLive do
     {:noreply, put_flash(socket, :error, "AI Error: #{inspect(reason)}")}
   end
 
-
   @impl true
   def render(assigns) do
     ~H"""
     <div class="w-full h-[100vh] flex flex-col bg-white dark:bg-slate-950 overflow-hidden relative">
-      <FusionFlowWeb.Components.Flow.FlowHeader.flow_header has_changes={@has_changes} flow={@current_flow} renaming_flow={@renaming_flow} />
-
+      <FusionFlowWeb.Components.Flow.FlowHeader.flow_header
+        has_changes={@has_changes}
+        flow={@current_flow}
+        renaming_flow={@renaming_flow}
+      />
       <div class="flex-1 flex overflow-hidden">
         <FusionFlowWeb.Components.Flow.NodeSidebar.node_sidebar nodes_by_category={@nodes_by_category} />
-
         <script>
           window.Translations = {
             "Run": "<%= gettext("Run") %>",
@@ -753,7 +758,7 @@ defmodule FusionFlowWeb.FlowLive do
             "Drag to canvas": "<%= gettext("Drag to canvas") %>"
           };
         </script>
-
+        
         <div
           class="flex-1 relative bg-gray-100 dark:bg-slate-900"
           id="rete-container"
@@ -767,7 +772,7 @@ defmodule FusionFlowWeb.FlowLive do
           </div>
         </div>
       </div>
-
+      
       <FusionFlowWeb.Components.Modals.CodeEditorModal.code_editor_modal
         modal_open={@modal_open}
         current_code_tab={@current_code_tab}
@@ -775,18 +780,15 @@ defmodule FusionFlowWeb.FlowLive do
         current_code_python={@current_code_python}
         available_variables={@available_variables}
       />
-
       <FusionFlowWeb.Components.Modals.NodeConfigModal.node_config_modal
         config_modal_open={@config_modal_open}
         editing_node_data={@editing_node_data}
       />
-
       <FusionFlowWeb.Components.Modals.ErrorModal.error_modal
         error_modal_open={@error_modal_open}
         current_error_node_id={@current_error_node_id}
         current_error_message={@current_error_message}
       />
-
       <FusionFlowWeb.Components.Modals.DependenciesModal.dependencies_modal
         dependencies_modal_open={@dependencies_modal_open}
         dependencies_tab={@dependencies_tab}
@@ -797,13 +799,11 @@ defmodule FusionFlowWeb.FlowLive do
         installing_dep={@installing_dep}
         terminal_logs={@terminal_logs}
       />
-
       <FusionFlowWeb.Components.Modals.ExecutionResultModal.execution_result_modal
         show_result_modal={@show_result_modal}
         execution_result={@execution_result}
         inspecting_result={@inspecting_result}
       />
-
       <.live_component
         module={FusionFlowWeb.Components.ChatComponent}
         id="chat-component"

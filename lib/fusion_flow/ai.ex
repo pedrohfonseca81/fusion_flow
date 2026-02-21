@@ -75,7 +75,8 @@ defmodule FusionFlow.AI do
         |> Enum.reject(&(&1 == "[DONE]"))
         |> Enum.map(fn json ->
           case Jason.decode(json) do
-            {:ok, %{"choices" => [%{"delta" => %{"content" => content}}]}} when is_binary(content) ->
+            {:ok, %{"choices" => [%{"delta" => %{"content" => content}}]}}
+            when is_binary(content) ->
               {:text_delta, content}
 
             _ ->

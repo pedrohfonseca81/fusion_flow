@@ -26,14 +26,22 @@ defmodule FusionFlowWeb.Components.Modals.CodeEditorModal do
               </span>
               Edit Code
             </h3>
-
-            <button phx-click="close_modal" class="text-gray-400 hover:text-gray-500 transition-colors">
+            
+            <button
+              phx-click="close_modal"
+              class="text-gray-400 hover:text-gray-500 transition-colors"
+            >
               <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
-
+          
           <div class="flex border-b border-gray-200 dark:border-slate-700 px-6 bg-gray-50 dark:bg-slate-800/50">
             <button
               type="button"
@@ -62,7 +70,7 @@ defmodule FusionFlowWeb.Components.Modals.CodeEditorModal do
               </span>
             </button>
           </div>
-
+          
           <form phx-submit="save_code" class="flex-1 flex flex-col overflow-hidden">
             <div
               class="flex-1 p-0 overflow-hidden relative bg-[#1e1e1e]"
@@ -72,10 +80,13 @@ defmodule FusionFlowWeb.Components.Modals.CodeEditorModal do
               data-variables={Jason.encode!(@available_variables)}
               data-language={@current_code_tab}
             >
-              <textarea id="code_elixir_textarea" name="code_elixir" class="w-full h-full hidden"><%= @current_code_elixir %></textarea>
-              <textarea id="code_python_textarea" name="code_python" class="w-full h-full hidden"><%= @current_code_python %></textarea>
+              <textarea id="code_elixir_textarea" name="code_elixir" class="w-full h-full hidden"><%= @current_code_elixir %></textarea> <textarea
+                id="code_python_textarea"
+                name="code_python"
+                class="w-full h-full hidden"
+              ><%= @current_code_python %></textarea>
             </div>
-
+            
             <div class="px-6 py-4 bg-white dark:bg-slate-800 border-t border-gray-200 dark:border-slate-700 flex justify-end gap-3 rounded-b-lg">
               <button
                 type="button"
@@ -89,7 +100,12 @@ defmodule FusionFlowWeb.Components.Modals.CodeEditorModal do
                 class="flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 border border-transparent rounded-lg shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
                 </svg>
                 Save Changes
               </button>

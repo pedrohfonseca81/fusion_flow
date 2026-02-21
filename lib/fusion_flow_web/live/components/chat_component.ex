@@ -27,7 +27,7 @@ defmodule FusionFlowWeb.Components.ChatComponent do
           </svg>
         </button>
       <% end %>
-
+      
       <div class={"fixed top-0 right-0 h-full w-[350px] bg-white dark:bg-slate-900 shadow-2xl z-[100] transform transition-transform duration-300 ease-in-out flex flex-col border-l border-gray-200 dark:border-slate-800 " <> if(@open, do: "translate-x-0", else: "translate-x-full")}>
         <div class="p-4 border-b border-gray-200 dark:border-slate-800 flex items-center justify-between bg-gray-50 dark:bg-slate-800">
           <div class="flex items-center gap-2">
@@ -43,7 +43,7 @@ defmodule FusionFlowWeb.Components.ChatComponent do
             </div>
              <span class="font-semibold text-gray-900 dark:text-white">AI Assistant</span>
           </div>
-
+          
           <button
             phx-click={@on_toggle}
             class="text-gray-500 hover:text-gray-700 dark:text-slate-400 dark:hover:text-slate-200"
@@ -65,7 +65,7 @@ defmodule FusionFlowWeb.Components.ChatComponent do
             </svg>
           </button>
         </div>
-
+        
         <div class="flex-1 overflow-y-auto p-4 space-y-4" id="chat-messages" phx-hook="ScrollToBottom">
           <%= for {role, content} <- @messages, not (role == :ai and content == "") do %>
             <div class={"flex " <> if(role == :user, do: "justify-end", else: "justify-start")}>
@@ -90,7 +90,7 @@ defmodule FusionFlowWeb.Components.ChatComponent do
                         stroke-width="4"
                       >
                       </circle>
-
+                      
                       <path
                         class="opacity-75"
                         fill="currentColor"
@@ -106,7 +106,7 @@ defmodule FusionFlowWeb.Components.ChatComponent do
               </div>
             </div>
           <% end %>
-
+          
           <%= if @loading and (List.last(@messages) |> elem(1)) == "" do %>
             <div class="flex justify-start">
               <div class="max-w-[85%] rounded-2xl px-4 py-3 text-sm bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200 rounded-bl-none border border-gray-200 dark:border-slate-700 shadow-sm dark:shadow-none">
@@ -126,7 +126,7 @@ defmodule FusionFlowWeb.Components.ChatComponent do
                       stroke-width="4"
                     >
                     </circle>
-
+                    
                     <path
                       class="opacity-75"
                       fill="currentColor"
@@ -139,7 +139,7 @@ defmodule FusionFlowWeb.Components.ChatComponent do
               </div>
             </div>
           <% end %>
-
+          
           <%= if not @ai_configured do %>
             <div class="flex flex-col items-center justify-center h-full text-gray-400 dark:text-gray-500 px-6">
               <div class="w-16 h-16 bg-amber-100 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center mb-4">
@@ -156,11 +156,11 @@ defmodule FusionFlowWeb.Components.ChatComponent do
                   />
                 </svg>
               </div>
-
+              
               <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
                 AI Assistant Disabled
               </p>
-
+              
               <p class="text-xs text-center text-gray-500 dark:text-gray-400">
                 Set
                 <code class="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded font-mono text-xs">
@@ -191,7 +191,7 @@ defmodule FusionFlowWeb.Components.ChatComponent do
             <% end %>
           <% end %>
         </div>
-
+        
         <%= if @ai_configured do %>
           <div class="p-4 border-t border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900">
             <form phx-submit={@on_send} class="flex gap-2 items-center">
@@ -201,19 +201,25 @@ defmodule FusionFlowWeb.Components.ChatComponent do
                 placeholder={if @loading, do: "AI is thinking...", else: "Message AI..."}
                 disabled={@loading}
                 onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); this.form.dispatchEvent(new Event('submit', {bubbles: true, cancelable: true})); }"
-                class={["flex-1 w-full pl-4 pr-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all placeholder-gray-400 dark:placeholder-gray-500 text-sm shadow-sm dark:shadow-none resize-none", if(@loading, do: "cursor-not-allowed opacity-60")]}
+                class={[
+                  "flex-1 w-full pl-4 pr-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all placeholder-gray-400 dark:placeholder-gray-500 text-sm shadow-sm dark:shadow-none resize-none",
+                  if(@loading, do: "cursor-not-allowed opacity-60")
+                ]}
                 rows="3"
               ></textarea>
               <button
                 type="submit"
                 disabled={@loading}
                 title={gettext("Send")}
-                class={["p-2.5 bg-indigo-600 text-white rounded-xl shadow-sm hover:bg-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center w-[42px] h-[42px] flex-shrink-0", if(@loading, do: "cursor-not-allowed opacity-50")]}
+                class={[
+                  "p-2.5 bg-indigo-600 text-white rounded-xl shadow-sm hover:bg-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center w-[42px] h-[42px] flex-shrink-0",
+                  if(@loading, do: "cursor-not-allowed opacity-50")
+                ]}
               >
                 <%= if @loading do %>
-                  <.icon name="hero-arrow-path" class="w-4 h-4 animate-spin"/>
+                  <.icon name="hero-arrow-path" class="w-4 h-4 animate-spin" />
                 <% else %>
-                  <.icon name="hero-chevron-right" class="w-5 h-5 stroke-2"/>
+                  <.icon name="hero-chevron-right" class="w-5 h-5 stroke-2" />
                 <% end %>
               </button>
             </form>

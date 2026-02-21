@@ -16,14 +16,22 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
       <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
         <div class="bg-white dark:bg-slate-900 rounded-lg shadow-2xl w-full max-w-4xl flex flex-col max-h-[90vh] border border-transparent dark:border-slate-800">
           <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-slate-800">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Project Dependencies</h3>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              Project Dependencies
+            </h3>
+            
             <button phx-click="close_dependencies_modal" class="text-gray-400 hover:text-gray-500">
               <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
-
+          
           <div class="flex border-b border-gray-200 dark:border-slate-800 px-6 pt-2">
             <button
               phx-click="switch_dependencies_tab"
@@ -47,7 +55,7 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
               JavaScript (NPM)
             </button>
           </div>
-
+          
           <div class="p-6 flex-1 overflow-y-auto">
             <%= if @dependencies_tab == "elixir" do %>
               <div class="space-y-6">
@@ -63,17 +71,17 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
                           />
                         </svg>
                       </div>
+                      
                       <div class="ml-3">
                         <p class="text-sm text-yellow-700 dark:text-yellow-200">
-                          The following dependencies require a server restart:
-                          <span class="font-bold"><%= Enum.join(@pending_restart_deps, ", ") %></span>.
+                          The following dependencies require a server restart: <span class="font-bold"><%= Enum.join(@pending_restart_deps, ", ") %></span>.
                           Please restart your application.
                         </p>
                       </div>
                     </div>
                   </div>
                 <% end %>
-
+                
                 <div class="relative">
                   <form phx-submit="search_dependency" phx-change="search_dependency">
                     <input
@@ -99,12 +107,13 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
                     </svg>
                   </form>
                 </div>
-
+                
                 <%= if @search_results != [] do %>
                   <div>
                     <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
                       Search Results
                     </h4>
+                    
                     <div class="grid grid-cols-1 gap-3">
                       <%= for pkg <- @search_results do %>
                         <div class="flex items-center justify-between p-3 border border-gray-200 dark:border-slate-800 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800/50">
@@ -115,9 +124,10 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
                                 {pkg.latest_version}
                               </span>
                             </div>
+                            
                             <p class="text-sm text-gray-500 mt-1 line-clamp-1">{pkg.description}</p>
                           </div>
-
+                          
                           <%= if pkg.name in @pending_restart_deps do %>
                             <button
                               disabled
@@ -140,12 +150,23 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
                     </div>
                   </div>
                 <% end %>
-
+                
                 <%= if @installing_dep do %>
                   <div class="border border-gray-200 dark:border-slate-800 rounded-lg overflow-hidden flex flex-col mt-4">
                     <div class="px-4 py-3 bg-gray-50 dark:bg-slate-800/80 border-b border-gray-200 dark:border-slate-800 flex items-center gap-2">
-                      <svg class="animate-spin h-4 w-4 text-indigo-500" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                      <svg
+                        class="animate-spin h-4 w-4 text-indigo-500"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          class="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        />
                         <path
                           class="opacity-75"
                           fill="currentColor"
@@ -156,6 +177,7 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
                         Installing {@installing_dep}...
                       </span>
                     </div>
+                    
                     <div class="bg-black p-4 h-40 overflow-y-auto font-mono text-xs text-green-400">
                       <%= for log <- @terminal_logs do %>
                         <div>{log}</div>
@@ -163,11 +185,12 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
                     </div>
                   </div>
                 <% end %>
-
+                
                 <div>
                   <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
                     Installed in mix.exs
                   </h4>
+                  
                   <div class="border rounded-lg overflow-hidden border-gray-200 dark:border-slate-800 mt-2">
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-800">
                       <thead class="bg-gray-50 dark:bg-slate-800/50">
@@ -175,25 +198,37 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
                           <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Name
                           </th>
+                          
                           <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Version
                           </th>
+                          
                           <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Action
                           </th>
                         </tr>
                       </thead>
+                      
                       <tbody class="bg-white dark:bg-slate-900 divide-y divide-gray-200 dark:divide-slate-800">
                         <%= for dep <- @installed_deps do %>
                           <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                               {dep.name}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{dep.version}</td>
+                            
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                              {dep.version}
+                            </td>
+                            
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                               <%= if dep.name in @pending_restart_deps do %>
                                 <span class="text-yellow-600 font-bold flex justify-end gap-1 items-center">
-                                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <svg
+                                    class="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
                                     <path
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
@@ -216,7 +251,12 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
               </div>
             <% else %>
               <div class="flex flex-col items-center justify-center h-48 text-gray-500">
-                <svg class="w-12 h-12 mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg
+                  class="w-12 h-12 mb-4 text-gray-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
