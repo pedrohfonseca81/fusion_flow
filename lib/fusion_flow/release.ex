@@ -43,6 +43,27 @@ defmodule FusionFlow.Release do
     {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :down, to: version))
   end
 
+  def seed do
+    load_app()
+
+    for repo <- repos() do
+      Ecto.Migrator.with_repo(repo, fn repo ->
+        seed_script = priv_path("seeds.exs")
+
+        if File.exists?(seed_script) do
+          IO.puts("Running seed script: #{seed_script}")
+          Code.eval_file(seed_script)
+        else
+          IO.puts("No seed script found for #{inspect(repo)}")
+        end
+      end)
+    end
+  end
+
+defp priv_path(filename) do
+  Path.join([:code.priv_dir(@app), "repo", filename])
+end
+
   defp repos do
     Application.fetch_env!(@app, :ecto_repos)
   end

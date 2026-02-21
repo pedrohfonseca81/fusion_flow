@@ -1,6 +1,8 @@
 defmodule FusionFlowWeb.Router do
   use FusionFlowWeb, :router
 
+  import FusionFlowWeb.UserAuth
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,6 +10,7 @@ defmodule FusionFlowWeb.Router do
     plug :put_root_layout, html: {FusionFlowWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_scope_for_user
     plug FusionFlowWeb.Plugs.SetLocale
   end
 
@@ -15,14 +18,6 @@ defmodule FusionFlowWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", FusionFlowWeb do
-    pipe_through :browser
-
-    live "/", DashboardLive
-    live "/flows", FlowListLive
-    live "/flows/new/ai", FlowAiCreatorLive
-    live "/flows/:id", FlowLive
-  end
 
   # JSON API Scope
   scope "/api", FusionFlowWeb do
@@ -45,5 +40,34 @@ defmodule FusionFlowWeb.Router do
 
       live_dashboard "/dashboard", metrics: FusionFlowWeb.Telemetry
     end
+  end
+
+  ## Authentication routes
+
+  scope "/", FusionFlowWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live_session :require_authenticated_user,
+      on_mount: [{FusionFlowWeb.UserAuth, :require_authenticated}] do
+      live "/users/settings", UserLive.Settings, :edit
+      live "/", DashboardLive
+      live "/flows", FlowListLive
+      live "/flows/new/ai", FlowAiCreatorLive
+      live "/flows/:id", FlowLive
+    end
+
+    post "/users/update-password", UserSessionController, :update_password
+  end
+
+  scope "/", FusionFlowWeb do
+    pipe_through [:browser]
+
+    live_session :current_user,
+      on_mount: [{FusionFlowWeb.UserAuth, :mount_current_scope}] do
+      live "/users/log-in", UserLive.Login, :new
+    end
+
+    post "/users/log-in", UserSessionController, :create
+    delete "/users/log-out", UserSessionController, :delete
   end
 end

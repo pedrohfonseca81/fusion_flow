@@ -23,36 +23,29 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
               </span>
               Configure {@editing_node_data["label"]}
             </h3>
-            
-            <button
+
+            <.button
+              variant="ghost"
               phx-click="close_config_modal"
-              class="text-gray-400 hover:text-gray-500 transition-colors"
+              class="p-1"
             >
-              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
+              <.icon name="hero-x-mark" class="h-6 w-6" />
+            </.button>
           </div>
-          
+
           <form phx-submit="save_node_config" class="flex-1 flex flex-col overflow-hidden">
             <div class="flex-1 p-6 overflow-y-auto space-y-6">
               <div class="space-y-2">
                 <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300">
                   Node Name
                 </label>
-                <input
+                <.input
                   type="text"
                   name="node_label"
                   value={@editing_node_data["label"]}
-                  class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-slate-900 dark:text-white transition-all h-10"
                 />
               </div>
-              
+
               <%= if @editing_node_data["controls"] do %>
                 <%= for {key, control} <- @editing_node_data["controls"] do %>
                   <div class="space-y-2">
@@ -61,62 +54,43 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
                     </label>
                     <%= case control["type"] do %>
                       <% "select" -> %>
-                        <select
+                        <.input
+                          type="select"
                           name={key}
-                          class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-slate-900 dark:text-white transition-all h-10"
-                        >
-                          <%= for option <- (control["options"] || []) do %>
-                            <%= if is_map(option) do %>
-                              <option
-                                value={option["value"]}
-                                selected={option["value"] == control["value"]}
-                              >
-                                {option["label"]}
-                              </option>
-                            <% else %>
-                              <option value={option} selected={option == control["value"]}>
-                                {option}
-                              </option>
-                            <% end %>
-                          <% end %>
-                        </select>
+                          options={
+                            for(option <- (control["options"] || []), do: if(is_map(option), do: {option["label"], option["value"]}, else: {option, option}))
+                          }
+                          value={control["value"]}
+                        />
                       <% "variable-select" -> %>
-                        <select
+                        <.input
+                          type="select"
                           name={key}
-                          class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-slate-900 dark:text-white transition-all h-10"
-                        >
-                          <option value="">Select a variable...</option>
-                          
-                          <%= for var <- (@editing_node_data["variables"] || []) do %>
-                            <option value={var} selected={var == control["value"]}>{var}</option>
-                          <% end %>
-                        </select>
+                          prompt="Select a variable..."
+                          options={for var <- (@editing_node_data["variables"] || []), do: {var, var}}
+                          value={control["value"]}
+                        />
                       <% "code-icon" -> %>
                         <div class="relative group">
-                          <textarea
+                          <.textarea
                             name={key}
                             rows="3"
                             readonly
-                            class="w-full px-3 py-2 font-mono text-sm text-gray-500 border border-gray-300 dark:border-slate-600 rounded-lg bg-gray-50 dark:bg-slate-900 dark:text-gray-400 cursor-not-allowed resize-none"
-                          >{control["value"]}</textarea>
-                          <button
+                            disabled
+                            value={control["value"]}
+                          />
+                          <.button
                             type="button"
+                            variant="outline"
                             phx-click="open_code_editor_from_config"
                             phx-value-field-name={key}
                             phx-value-code={control["value"]}
                             phx-value-language={control["language"] || "elixir"}
-                            class="absolute top-2 right-2 p-1.5 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-md shadow-sm hover:border-primary-500 text-gray-500 hover:text-primary-600 transition-all"
+                            class="absolute top-2 right-2 p-1.5 h-auto"
                             title="Open Code Editor"
                           >
-                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                              />
-                            </svg>
-                          </button>
+                            <.icon name="hero-code-bracket" class="w-4 h-4" />
+                          </.button>
                         </div>
                       <% "code-button" -> %>
                         <div class="flex items-center gap-3 p-3 border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800/50">
@@ -125,30 +99,20 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
                               {String.slice(control["value"] || "", 0, 50)}...
                             </div>
                           </div>
-                          
-                          <button
+
+                          <.button
                             type="button"
+                            variant="primary"
                             phx-click="open_code_editor_from_config"
                             phx-value-field-name={key}
                             phx-value-code={control["value"]}
                             phx-value-language={control["language"] || "elixir"}
-                            class="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm transition-all"
+                            class="px-3 py-1.5 text-xs h-auto"
                           >
-                            <svg
-                              class="w-3.5 h-3.5"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                              />
-                            </svg>
-                            Edit Code
-                          </button> <input type="hidden" name={key} value={control["value"]} />
+                            <.icon name="hero-code-bracket" class="w-3.5 h-3.5 mr-1" />
+                            {gettext("Edit Code")}
+                          </.button>
+                          <input type="hidden" name={key} value={control["value"]} />
                         </div>
                       <% _ -> %>
                         <%= if String.length(to_string(control["value"])) > 50 do %>
@@ -174,21 +138,22 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
                 </p>
               <% end %>
             </div>
-            
+
             <div class="px-6 py-5 bg-white dark:bg-slate-800 border-t border-gray-200 dark:border-slate-700 flex justify-end gap-3 rounded-b-lg">
-              <button
+              <.button
                 type="button"
+                variant="outline"
                 phx-click="close_config_modal"
-                class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-slate-300 bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-slate-600 transition-all"
               >
-                Cancel
-              </button>
-              <button
+                {gettext("Cancel")}
+              </.button>
+              <.button
                 type="submit"
-                class="px-5 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 border border-transparent rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all transform active:scale-95"
+                variant="primary"
+                class="px-5 transition-all transform active:scale-95"
               >
-                Save Configuration
-              </button>
+                {gettext("Save Configuration")}
+              </.button>
             </div>
           </form>
         </div>

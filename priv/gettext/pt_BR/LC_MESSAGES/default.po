@@ -11,54 +11,55 @@ msgstr ""
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n>1);\n"
 
-#: lib/fusion_flow_web/components/core_components.ex:368
+#: lib/fusion_flow_web/components/core_components.ex:410
 #, elixir-autogen, elixir-format
 msgid "Actions"
 msgstr "Ações"
 
-#: lib/fusion_flow_web/live/dashboard_live.ex:66
+#: lib/fusion_flow_web/live/dashboard_live.ex:89
 #, elixir-autogen, elixir-format
 msgid "Active Integrations"
 msgstr "Integrações Ativas"
 
-#: lib/fusion_flow_web/components/layouts.ex:137
-#: lib/fusion_flow_web/components/layouts.ex:149
+#: lib/fusion_flow_web/components/layouts.ex:249
+#: lib/fusion_flow_web/components/layouts.ex:261
 #, elixir-autogen, elixir-format
 msgid "Attempting to reconnect"
 msgstr "Tentando reconectar"
 
-#: lib/fusion_flow_web/live/flow_live.ex:755
+#: lib/fusion_flow_web/live/flow_live.ex:756
 #, elixir-autogen, elixir-format
 msgid "Coming Soon"
 msgstr "Em Breve"
 
-#: lib/fusion_flow_web/live/flow_live.ex:752
+#: lib/fusion_flow_web/live/flow_live.ex:753
 #, elixir-autogen, elixir-format
 msgid "Configure Node"
 msgstr "Configurar Nó"
 
-#: lib/fusion_flow_web/live/dashboard_live.ex:92
+#: lib/fusion_flow_web/live/dashboard_live.ex:137
 #, elixir-autogen, elixir-format
 msgid "Create Flow"
 msgstr "Criar Fluxo"
 
-#: lib/fusion_flow_web/live/flow_list_live.ex:75
+#: lib/fusion_flow_web/live/flow_list_live.ex:86
 #, elixir-autogen, elixir-format
 msgid "Create your first flow"
 msgstr "Crie seu primeiro fluxo"
 
-#: lib/fusion_flow_web/components/layouts.ex:58
-#: lib/fusion_flow_web/live/dashboard_live.ex:30
+#: lib/fusion_flow_web/components/layouts.ex:89
+#: lib/fusion_flow_web/live/dashboard_live.ex:29
 #, elixir-autogen, elixir-format
 msgid "Dashboard"
 msgstr "Painel"
 
-#: lib/fusion_flow_web/live/flow_live.ex:757
+#: lib/fusion_flow_web/live/flow_live.ex:758
 #, elixir-autogen, elixir-format
 msgid "Drag to canvas"
 msgstr "Arraste para a tela"
 
-#: lib/fusion_flow_web/live/flow_live.ex:754
+#: lib/fusion_flow_web/components/modals/node_config_modal.ex:113
+#: lib/fusion_flow_web/live/flow_live.ex:755
 #, elixir-autogen, elixir-format
 msgid "Edit Code"
 msgstr "Editar Código"
@@ -68,109 +69,109 @@ msgstr "Editar Código"
 msgid "Failed to create flow."
 msgstr "Falha ao criar o fluxo."
 
-#: lib/fusion_flow_web/live/flow_list_live.ex:38
+#: lib/fusion_flow_web/live/flow_list_live.ex:40
 #, elixir-autogen, elixir-format
 msgid "Flows available"
 msgstr "Fluxos disponíveis"
 
-#: lib/fusion_flow_web/live/dashboard_live.ex:89
+#: lib/fusion_flow_web/live/dashboard_live.ex:129
 #, elixir-autogen, elixir-format
 msgid "Get started by creating a new workflow automation."
 msgstr "Comece criando uma nova automação de processo."
 
-#: lib/fusion_flow_web/live/flow_list_live.ex:65
+#: lib/fusion_flow_web/live/flow_list_live.ex:77
 #, elixir-autogen, elixir-format
 msgid "Get started by creating your first workflow automation. It's easy!"
 msgstr "Comece criando sua primeira automação. É fácil!"
 
-#: lib/fusion_flow_web/live/dashboard_live.ex:34
+#: lib/fusion_flow_web/live/dashboard_live.ex:40
 #, elixir-autogen, elixir-format
 msgid "Manage Flows"
 msgstr "Gerenciar Fluxos"
 
-#: lib/fusion_flow_web/components/layouts.ex:65
+#: lib/fusion_flow_web/components/layouts.ex:109
 #: lib/fusion_flow_web/live/flow_list_live.ex:8
 #: lib/fusion_flow_web/live/flow_list_live.ex:37
 #, elixir-autogen, elixir-format
 msgid "My Flows"
 msgstr "Meus Fluxos"
 
-#: lib/fusion_flow_web/live/flow_list_live.ex:47
+#: lib/fusion_flow_web/live/flow_list_live.ex:49
 #, elixir-autogen, elixir-format
 msgid "New Flow"
 msgstr "Novo Fluxo"
 
-#: lib/fusion_flow_web/live/dashboard_live.ex:88
+#: lib/fusion_flow_web/live/dashboard_live.ex:126
 #, elixir-autogen, elixir-format
 msgid "No flows"
 msgstr "Nenhum fluxo"
 
-#: lib/fusion_flow_web/live/flow_list_live.ex:61
+#: lib/fusion_flow_web/live/flow_list_live.ex:73
 #, elixir-autogen, elixir-format
 msgid "No flows created yet"
 msgstr "Nenhum fluxo criado ainda"
 
-#: lib/fusion_flow_web/live/dashboard_live.ex:79
+#: lib/fusion_flow_web/live/dashboard_live.ex:110
 #, elixir-autogen, elixir-format
 msgid "Recent Workflows"
 msgstr "Fluxos Recentes"
 
-#: lib/fusion_flow_web/live/flow_live.ex:751
+#: lib/fusion_flow_web/live/flow_live.ex:752
 #, elixir-autogen, elixir-format
 msgid "Remove Node"
 msgstr "Remover Nó"
 
-#: lib/fusion_flow_web/live/flow_live.ex:749
+#: lib/fusion_flow_web/live/flow_live.ex:750
 #, elixir-autogen, elixir-format
 msgid "Run"
 msgstr "Executar"
 
-#: lib/fusion_flow_web/live/flow_live.ex:756
+#: lib/fusion_flow_web/live/flow_live.ex:757
 #, elixir-autogen, elixir-format
 msgid "Select Integration"
 msgstr "Selecione a Integração"
 
-#: lib/fusion_flow_web/components/layouts.ex:144
+#: lib/fusion_flow_web/components/layouts.ex:256
 #, elixir-autogen, elixir-format
 msgid "Something went wrong!"
 msgstr "Algo deu errado!"
 
-#: lib/fusion_flow_web/components/layouts.ex:94
+#: lib/fusion_flow_web/components/layouts.ex:150
 #, elixir-autogen, elixir-format
 msgid "Theme"
 msgstr "Tema"
 
-#: lib/fusion_flow_web/live/dashboard_live.ex:53
+#: lib/fusion_flow_web/live/dashboard_live.ex:68
 #, elixir-autogen, elixir-format
 msgid "Total Processed Nodes"
 msgstr "Nós Processados"
 
-#: lib/fusion_flow_web/live/dashboard_live.ex:41
+#: lib/fusion_flow_web/live/dashboard_live.ex:48
 #, elixir-autogen, elixir-format
 msgid "Total Workflows"
 msgstr "Total de Fluxos"
 
-#: lib/fusion_flow_web/live/flow_list_live.ex:93
+#: lib/fusion_flow_web/live/flow_list_live.ex:118
 #, elixir-autogen, elixir-format
 msgid "Updated"
 msgstr "Atualizado"
 
-#: lib/fusion_flow_web/live/flow_live.ex:753
+#: lib/fusion_flow_web/live/flow_live.ex:754
 #, elixir-autogen, elixir-format
 msgid "View Error"
 msgstr "Ver Erro"
 
-#: lib/fusion_flow_web/live/flow_live.ex:750
+#: lib/fusion_flow_web/live/flow_live.ex:751
 #, elixir-autogen, elixir-format
 msgid "Waiting..."
 msgstr "Aguardando..."
 
-#: lib/fusion_flow_web/components/layouts.ex:132
+#: lib/fusion_flow_web/components/layouts.ex:244
 #, elixir-autogen, elixir-format
 msgid "We can't find the internet"
 msgstr "Não conseguimos conectar à internet"
 
-#: lib/fusion_flow_web/live/dashboard_live.ex:31
+#: lib/fusion_flow_web/live/dashboard_live.ex:32
 #, elixir-autogen, elixir-format
 msgid "Welcome back to FusionFlow! Here's an overview of your automated logic."
 msgstr "Bem-vindo de volta ao FusionFlow! Aqui está um resumo da sua lógica automatizada."
@@ -180,83 +181,259 @@ msgstr "Bem-vindo de volta ao FusionFlow! Aqui está um resumo da sua lógica au
 msgid "close"
 msgstr "fechar"
 
-#: lib/fusion_flow_web/live/flow_list_live.ex:93
+#: lib/fusion_flow_web/live/flow_list_live.ex:118
 #, elixir-autogen, elixir-format
 msgid "connections"
 msgstr "conexões"
 
-#: lib/fusion_flow_web/live/flow_list_live.ex:93
+#: lib/fusion_flow_web/live/flow_list_live.ex:116
 #, elixir-autogen, elixir-format
 msgid "nodes"
 msgstr "nós"
 
-#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:265
+#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:349
 #, elixir-autogen, elixir-format
 msgid "Are you happy with this implementation plan?"
 msgstr "Você está satisfeito com este plano de implementação?"
 
-#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:245
+#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:322
 #, elixir-autogen, elixir-format
 msgid "Building flow and rendering graph..."
 msgstr "Construindo o fluxo e renderizando o gráfico..."
 
-#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:15
-#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:220
+#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:14
+#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:269
 #, elixir-autogen, elixir-format
 msgid "Create Flow with AI"
 msgstr "Criar Fluxo com IA"
 
-#: lib/fusion_flow_web/components/layouts.ex:72
+#: lib/fusion_flow_web/components/layouts.ex:129
 #, elixir-autogen, elixir-format
 msgid "Create with AI"
 msgstr "Criar com IA"
 
-#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:221
+#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:273
 #, elixir-autogen, elixir-format
 msgid "Describe what you want to automate, and I will build the flow structure for you."
 msgstr "Descreva o que você deseja automatizar e eu construirei a estrutura do fluxo para você."
 
-#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:191
+#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:208
 #, elixir-autogen, elixir-format
 msgid "Flow built successfully!"
 msgstr "Fluxo construído com sucesso!"
 
-#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:236
+#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:307
 #, elixir-autogen, elixir-format
 msgid "For example: 'Create a flow that listens to a webhook, logs the payload and saves it into the database.'"
 msgstr "Por exemplo: 'Crie um fluxo que escuta um webhook, registra o payload e o salva no banco de dados.'"
 
-#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:235
+#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:303
 #, elixir-autogen, elixir-format
 msgid "How can I help you today?"
 msgstr "Como posso ajudá-lo hoje?"
 
-#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:25
+#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:24
 #, elixir-autogen, elixir-format
 msgid "OpenAI API Key is not configured."
 msgstr "A chave de API da OpenAI não está configurada."
 
-#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:274
+#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:359
 #, elixir-autogen, elixir-format
 msgid "Or reply below with adjustments"
 msgstr "Ou responda abaixo com ajustes"
 
-#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:304
+#: lib/fusion_flow_web/live/components/chat_component.ex:193
+#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:388
 #, elixir-autogen, elixir-format
 msgid "Send"
 msgstr "Enviar"
 
-#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:254
+#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:337
 #, elixir-autogen, elixir-format
 msgid "Thinking..."
 msgstr "Pensando..."
 
-#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:291
+#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:375
 #, elixir-autogen, elixir-format
 msgid "Type your prompt here..."
 msgstr "Digite seu comando aqui..."
 
-#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:272
+#: lib/fusion_flow_web/live/flow_ai_creator_live.ex:356
 #, elixir-autogen, elixir-format
 msgid "Yes, Build This Flow"
 msgstr "Sim, Construa Este Fluxo"
+
+#: lib/fusion_flow_web/live/user_live/settings.ex:14
+#, elixir-autogen, elixir-format
+msgid "Account Settings"
+msgstr "Configurações de Conta"
+
+#: lib/fusion_flow_web/components/modals/execution_result_modal.ex:38
+#, elixir-autogen, elixir-format
+msgid "Back to Result"
+msgstr "Voltar ao Resultado"
+
+#: lib/fusion_flow_web/components/modals/code_editor_modal.ex:90
+#: lib/fusion_flow_web/components/modals/node_config_modal.ex:148
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: lib/fusion_flow_web/live/user_live/settings.ex:39
+#, elixir-autogen, elixir-format
+msgid "Change Email"
+msgstr "Alterar E-mail"
+
+#: lib/fusion_flow_web/live/user_live/settings.ex:48
+#, elixir-autogen, elixir-format
+msgid "Change Password"
+msgstr "Alterar Senha"
+
+#: lib/fusion_flow_web/live/user_live/settings.ex:39
+#, elixir-autogen, elixir-format
+msgid "Changing..."
+msgstr "Alterando..."
+
+#: lib/fusion_flow_web/components/modals/error_modal.ex:58
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Close"
+msgstr "fechar"
+
+#: lib/fusion_flow_web/live/user_live/settings.ex:79
+#, elixir-autogen, elixir-format
+msgid "Confirm New Password"
+msgstr "Confirmar Nova Senha"
+
+#: lib/fusion_flow_web/components/modals/execution_result_modal.ex:98
+#, elixir-autogen, elixir-format
+msgid "Done"
+msgstr "Concluído"
+
+#: lib/fusion_flow_web/live/user_live/settings.ex:37
+#, elixir-autogen, elixir-format
+msgid "Email Address"
+msgstr "Endereço de E-mail"
+
+#: lib/fusion_flow_web/live/user_live/settings.ex:49
+#, elixir-autogen, elixir-format
+msgid "Ensure your account is using a long, random password to stay secure."
+msgstr "Garanta que sua conta esteja usando uma senha longa e aleatória para se manter segura."
+
+#: lib/fusion_flow_web/live/user_live/login.ex:47
+#, elixir-autogen, elixir-format
+msgid "Enter your username"
+msgstr "Digite seu nome de usuário"
+
+#: lib/fusion_flow_web/components/modals/execution_result_modal.ex:75
+#, elixir-autogen, elixir-format
+msgid "Inspect Full Context"
+msgstr "Inspecionar Contexto Completo"
+
+#: lib/fusion_flow_web/components/modals/dependencies_modal.ex:128
+#, elixir-autogen, elixir-format
+msgid "Install"
+msgstr "Instalar"
+
+#: lib/fusion_flow_web/live/user_live/login.ex:66
+#, elixir-autogen, elixir-format
+msgid "Log in"
+msgstr "Entrar"
+
+#: lib/fusion_flow_web/components/layouts.ex:202
+#, elixir-autogen, elixir-format
+msgid "Log out"
+msgstr "Sair"
+
+#: lib/fusion_flow_web/live/user_live/settings.ex:16
+#, elixir-autogen, elixir-format
+msgid "Manage your account settings, security, and preferences."
+msgstr "Gerencie suas configurações de conta, segurança e preferências."
+
+#: lib/fusion_flow_web/live/user_live/settings.ex:72
+#, elixir-autogen, elixir-format
+msgid "New Password"
+msgstr "Nova Senha"
+
+#: lib/fusion_flow_web/live/user_live/login.ex:54
+#, elixir-autogen, elixir-format
+msgid "Password"
+msgstr "Senha"
+
+#: lib/fusion_flow_web/live/user_live/settings.ex:24
+#, elixir-autogen, elixir-format
+msgid "Profile Information"
+msgstr "Informações do Perfil"
+
+#: lib/fusion_flow_web/components/modals/dependencies_modal.ex:118
+#, elixir-autogen, elixir-format
+msgid "Restart Required"
+msgstr "Reinício Necessário"
+
+#: lib/fusion_flow_web/components/flow/flow_header.ex:121
+#: lib/fusion_flow_web/components/modals/code_editor_modal.ex:97
+#, elixir-autogen, elixir-format
+msgid "Save Changes"
+msgstr "Salvar Alterações"
+
+#: lib/fusion_flow_web/components/modals/node_config_modal.ex:155
+#, elixir-autogen, elixir-format
+msgid "Save Configuration"
+msgstr "Salvar Configuração"
+
+#: lib/fusion_flow_web/live/user_live/settings.ex:31
+#: lib/fusion_flow_web/live/user_live/settings.ex:83
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Saving..."
+msgstr "Salvando..."
+
+#: lib/fusion_flow_web/components/layouts.ex:193
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Configurações"
+
+#: lib/fusion_flow_web/live/user_live/login.ex:18
+#, elixir-autogen, elixir-format
+msgid "Sign in to your account to continue"
+msgstr "Entre em sua conta para continuar"
+
+#: lib/fusion_flow_web/live/user_live/settings.ex:84
+#, elixir-autogen, elixir-format
+msgid "Update Password"
+msgstr "Atualizar Senha"
+
+#: lib/fusion_flow_web/live/user_live/settings.ex:31
+#, elixir-autogen, elixir-format
+msgid "Update Username"
+msgstr "Atualizar Nome de Usuário"
+
+#: lib/fusion_flow_web/live/user_live/settings.ex:25
+#, elixir-autogen, elixir-format
+msgid "Update your public username and email address."
+msgstr "Atualize seu nome de usuário público e endereço de e-mail."
+
+#: lib/fusion_flow_web/live/user_live/login.ex:46
+#: lib/fusion_flow_web/live/user_live/settings.ex:29
+#, elixir-autogen, elixir-format
+msgid "Username"
+msgstr "Nome de Usuário"
+
+#: lib/fusion_flow_web/live/user_live/login.ex:12
+#, elixir-autogen, elixir-format
+msgid "Welcome back"
+msgstr "Bem-vindo de volta"
+
+#: lib/fusion_flow_web/user_auth.ex:228
+#: lib/fusion_flow_web/user_auth.ex:277
+#, elixir-autogen, elixir-format
+msgid "You must log in to access this page."
+msgstr "Você deve estar logado para acessar esta página."
+
+#: lib/fusion_flow_web/user_auth.ex:243
+#, elixir-autogen, elixir-format
+msgid "You must re-authenticate to access this page."
+msgstr "Você deve se reautenticar para acessar esta página."
+
+#: lib/fusion_flow_web/live/user_live/login.ex:16
+#, elixir-autogen, elixir-format
+msgid "You need to re-authenticate to perform sensitive actions."
+msgstr "Você precisa se reautenticar para realizar ações sensíveis."

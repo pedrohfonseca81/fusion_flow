@@ -22,47 +22,41 @@ defmodule FusionFlowWeb.Components.Modals.ErrorModal do
               </svg>
               Node Execution Error
             </h3>
-            
-            <button
+
+            <.button
+              variant="ghost"
               phx-click="close_error_modal"
-              class="text-red-400 hover:text-red-600 dark:hover:text-red-300 transition-colors"
+              class="p-1 !text-red-400 hover:!text-red-600 dark:hover:!text-red-300"
             >
-              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
+              <.icon name="hero-x-mark" class="h-6 w-6" />
+            </.button>
           </div>
-          
+
           <div class="p-6 overflow-y-auto">
             <div class="mb-4">
               <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Node ID:</p>
-              
+
               <code class="px-2 py-1 bg-gray-100 dark:bg-slate-900 rounded text-sm text-gray-700 dark:text-gray-300 font-mono">
                 {@current_error_node_id}
               </code>
             </div>
-            
+
             <div>
               <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Error Message:</p>
-              
+
               <div class="p-4 bg-gray-50 dark:bg-slate-900/50 rounded-lg border border-gray-200 dark:border-slate-700 overflow-x-auto">
                 <pre class="text-sm text-red-600 dark:text-red-400 font-mono whitespace-pre-wrap">{@current_error_message}</pre>
               </div>
             </div>
           </div>
-          
+
           <div class="px-6 py-4 border-t border-gray-200 dark:border-slate-700 flex justify-end">
-            <button
+            <.button
               phx-click="close_error_modal"
-              class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              variant="danger"
             >
-              Close
-            </button>
+              {gettext("Close")}
+            </.button>
           </div>
         </div>
       </div>

@@ -89,19 +89,32 @@ defmodule FusionFlowWeb.CoreComponents do
       <.button navigate={~p"/"}>Home</.button>
   """
   attr :rest, :global, include: ~w(href navigate patch method download name value disabled)
-  attr :class, :any
-  attr :variant, :string, values: ~w(primary)
+  attr :class, :any, default: nil
+  attr :variant, :string, values: ~w(primary outline ghost success danger)
   slot :inner_block, required: true
 
-  def button(%{rest: rest} = assigns) do
-    variants = %{"primary" => "btn-primary", nil => "btn-primary btn-soft"}
+  def button(assigns) do
+    variants = %{
+      "primary" =>
+        "bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm focus:ring-indigo-500",
+      "outline" =>
+        "bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 border-none",
+      "ghost" =>
+        "bg-transparent hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300 border-none shadow-none",
+      "success" =>
+        "bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm focus:ring-emerald-500",
+      "danger" =>
+        "bg-rose-600 hover:bg-rose-700 text-white shadow-sm focus:ring-rose-500",
+      nil => "bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm focus:ring-indigo-500"
+    }
+
+    base_classes = "inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg transition-all focus:ring-2 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+    variant_classes = Map.get(variants, assigns[:variant])
 
     assigns =
-      assign_new(assigns, :class, fn ->
-        ["btn", Map.fetch!(variants, assigns[:variant])]
-      end)
+      assign(assigns, :class, [base_classes, variant_classes, assigns.class])
 
-    if rest[:href] || rest[:navigate] || rest[:patch] do
+    if assigns.rest[:href] || assigns.rest[:navigate] || assigns.rest[:patch] do
       ~H"""
       <.link class={@class} {@rest}>
         {render_slot(@inner_block)}
@@ -159,7 +172,7 @@ defmodule FusionFlowWeb.CoreComponents do
   attr :id, :any, default: nil
   attr :name, :any
   attr :label, :string, default: nil
-  attr :value, :any
+  attr :value, :any, default: nil
 
   attr :type, :string,
     default: "text",
@@ -233,13 +246,13 @@ defmodule FusionFlowWeb.CoreComponents do
 
   def input(%{type: "select"} = assigns) do
     ~H"""
-    <div class="fieldset mb-2">
+    <div class={["fieldset mb-2", @class]}>
       <label>
         <span :if={@label} class="label mb-1">{@label}</span>
         <select
           id={@id}
           name={@name}
-          class={[@class || "w-full select", @errors != [] && (@error_class || "select-error")]}
+          class={["w-full select", @errors != [] && (@error_class || "select-error")]}
           multiple={@multiple}
           {@rest}
         >
@@ -252,30 +265,11 @@ defmodule FusionFlowWeb.CoreComponents do
     """
   end
 
-  def input(%{type: "textarea"} = assigns) do
-    ~H"""
-    <div class="fieldset mb-2">
-      <label>
-        <span :if={@label} class="label mb-1">{@label}</span>
-        <textarea
-          id={@id}
-          name={@name}
-          class={[
-            @class || "w-full textarea",
-            @errors != [] && (@error_class || "textarea-error")
-          ]}
-          {@rest}
-        >{Phoenix.HTML.Form.normalize_value("textarea", @value)}</textarea>
-      </label>
-      <.error :for={msg <- @errors}>{msg}</.error>
-    </div>
-    """
-  end
 
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""
-    <div class="fieldset mb-2">
+    <div class={["fieldset mb-2", @class]}>
       <label>
         <span :if={@label} class="label mb-1">{@label}</span>
         <input
@@ -284,11 +278,59 @@ defmodule FusionFlowWeb.CoreComponents do
           id={@id}
           value={Phoenix.HTML.Form.normalize_value(@type, @value)}
           class={[
-            @class || "w-full input",
-            @errors != [] && (@error_class || "input-error")
+            "w-full bg-slate-50 dark:bg-slate-800 border border-gray-300 dark:border-slate-700 rounded-xl px-5 py-3 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-sm",
+            @errors != [] && (@error_class || "border-red-500 focus:ring-red-500")
           ]}
           {@rest}
         />
+      </label>
+      <.error :for={msg <- @errors}>{msg}</.error>
+    </div>
+    """
+  end
+
+  @doc """
+  Renders a textarea.
+
+  Identical to `input/1` but specifically for textareas.
+  """
+  attr :id, :any, default: nil
+  attr :name, :any
+  attr :label, :string, default: nil
+  attr :value, :any, default: nil
+  attr :errors, :list, default: []
+  attr :error_class, :any, default: nil
+  attr :class, :any, default: nil
+  attr :rest, :global, include: ~w(cols rows disabled maxlength minlength placeholder readonly required autofocus autocomplete)
+
+  attr :field, Phoenix.HTML.FormField,
+    doc: "a form field struct retrieved from the form, for example: @form[:description]"
+
+  def textarea(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+    errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
+
+    assigns
+    |> assign(field: nil, id: assigns.id || field.id)
+    |> assign(:errors, Enum.map(errors, &translate_error(&1)))
+    |> assign_new(:name, fn -> field.name end)
+    |> assign_new(:value, fn -> field.value end)
+    |> textarea()
+  end
+
+  def textarea(assigns) do
+    ~H"""
+    <div class={["fieldset mb-2", @class]}>
+      <label>
+        <span :if={@label} class="label mb-1">{@label}</span>
+        <textarea
+          id={@id}
+          name={@name}
+          class={[
+            "w-full bg-slate-50 dark:bg-slate-800 border border-gray-300 dark:border-slate-700 rounded-xl px-5 py-3 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-sm resize-none",
+            @errors != [] && (@error_class || "border-red-500 focus:ring-red-500")
+          ]}
+          {@rest}
+        >{Phoenix.HTML.Form.normalize_value("textarea", @value)}</textarea>
       </label>
       <.error :for={msg <- @errors}>{msg}</.error>
     </div>

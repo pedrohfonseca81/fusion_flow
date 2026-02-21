@@ -57,11 +57,8 @@ defmodule FusionFlowWeb.Plugs.SetLocale do
           nil
       end
 
-    if locale do
-      Gettext.put_locale(FusionFlowWeb.Gettext, locale)
-      {:cont, Phoenix.Component.assign(socket, :locale, locale)}
-    else
-      {:cont, socket}
-    end
+    locale = locale || Gettext.get_locale(FusionFlowWeb.Gettext)
+    Gettext.put_locale(FusionFlowWeb.Gettext, locale)
+    {:cont, Phoenix.Component.assign(socket, :locale, locale)}
   end
 end

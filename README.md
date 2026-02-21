@@ -11,7 +11,6 @@ Whether you are automating simple tasks or orchestrating complex microservices, 
 ### Prerequisites
 
 - Elixir ~> 1.15, Erlang/OTP 26+, PostgreSQL, Node.js
-- OpenAI API Key (for AI features)
 
 ### Installation (Source)
 
