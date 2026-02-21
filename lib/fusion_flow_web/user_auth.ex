@@ -240,7 +240,10 @@ defmodule FusionFlowWeb.UserAuth do
     else
       socket =
         socket
-        |> Phoenix.LiveView.put_flash(:error, gettext("You must re-authenticate to access this page."))
+        |> Phoenix.LiveView.put_flash(
+          :error,
+          gettext("You must re-authenticate to access this page.")
+        )
         |> Phoenix.LiveView.redirect(to: ~p"/users/log-in")
 
       {:halt, socket}

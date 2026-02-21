@@ -23,7 +23,7 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
               </span>
               Configure {@editing_node_data["label"]}
             </h3>
-
+            
             <.button
               variant="ghost"
               phx-click="close_config_modal"
@@ -32,7 +32,7 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
               <.icon name="hero-x-mark" class="h-6 w-6" />
             </.button>
           </div>
-
+          
           <form phx-submit="save_node_config" class="flex-1 flex flex-col overflow-hidden">
             <div class="flex-1 p-6 overflow-y-auto space-y-6">
               <div class="space-y-2">
@@ -45,7 +45,7 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
                   value={@editing_node_data["label"]}
                 />
               </div>
-
+              
               <%= if @editing_node_data["controls"] do %>
                 <%= for {key, control} <- @editing_node_data["controls"] do %>
                   <div class="space-y-2">
@@ -58,7 +58,14 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
                           type="select"
                           name={key}
                           options={
-                            for(option <- (control["options"] || []), do: if(is_map(option), do: {option["label"], option["value"]}, else: {option, option}))
+                            for(
+                              option <- control["options"] || [],
+                              do:
+                                if(is_map(option),
+                                  do: {option["label"], option["value"]},
+                                  else: {option, option}
+                                )
+                            )
                           }
                           value={control["value"]}
                         />
@@ -67,7 +74,7 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
                           type="select"
                           name={key}
                           prompt="Select a variable..."
-                          options={for var <- (@editing_node_data["variables"] || []), do: {var, var}}
+                          options={for var <- @editing_node_data["variables"] || [], do: {var, var}}
                           value={control["value"]}
                         />
                       <% "code-icon" -> %>
@@ -99,7 +106,7 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
                               {String.slice(control["value"] || "", 0, 50)}...
                             </div>
                           </div>
-
+                          
                           <.button
                             type="button"
                             variant="primary"
@@ -109,10 +116,10 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
                             phx-value-language={control["language"] || "elixir"}
                             class="px-3 py-1.5 text-xs h-auto"
                           >
-                            <.icon name="hero-code-bracket" class="w-3.5 h-3.5 mr-1" />
-                            {gettext("Edit Code")}
-                          </.button>
-                          <input type="hidden" name={key} value={control["value"]} />
+                            <.icon name="hero-code-bracket" class="w-3.5 h-3.5 mr-1" /> {gettext(
+                              "Edit Code"
+                            )}
+                          </.button> <input type="hidden" name={key} value={control["value"]} />
                         </div>
                       <% _ -> %>
                         <%= if String.length(to_string(control["value"])) > 50 do %>
@@ -138,7 +145,7 @@ defmodule FusionFlowWeb.Components.Modals.NodeConfigModal do
                 </p>
               <% end %>
             </div>
-
+            
             <div class="px-6 py-5 bg-white dark:bg-slate-800 border-t border-gray-200 dark:border-slate-700 flex justify-end gap-3 rounded-b-lg">
               <.button
                 type="button"

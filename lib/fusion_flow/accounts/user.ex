@@ -41,7 +41,9 @@ defmodule FusionFlow.Accounts.User do
     changeset
     |> validate_required([:username])
     |> validate_length(:username, min: 3, max: 30)
-    |> validate_format(:username, ~r/^[a-zA-Z0-9_]+$/, message: "can only contain letters, numbers and underscores")
+    |> validate_format(:username, ~r/^[a-zA-Z0-9_]+$/,
+      message: "can only contain letters, numbers and underscores"
+    )
     |> unsafe_validate_unique(:username, FusionFlow.Repo)
     |> unique_constraint(:username)
   end

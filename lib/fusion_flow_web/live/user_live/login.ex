@@ -1,7 +1,6 @@
 defmodule FusionFlowWeb.UserLive.Login do
   use FusionFlowWeb, :live_view
 
-
   @impl true
   def render(assigns) do
     ~H"""
@@ -11,6 +10,7 @@ defmodule FusionFlowWeb.UserLive.Login do
           <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
             {gettext("Welcome back")}
           </h1>
+          
           <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
             <%= if @current_scope && @current_scope.user do %>
               {gettext("You need to re-authenticate to perform sensitive actions.")}
@@ -19,17 +19,24 @@ defmodule FusionFlowWeb.UserLive.Login do
             <% end %>
           </p>
         </div>
-
-        <div :if={local_mail_adapter?()} class="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800 flex gap-3">
-          <.icon name="hero-information-circle" class="size-5 text-blue-600 dark:text-blue-400 shrink-0" />
+        
+        <div
+          :if={local_mail_adapter?()}
+          class="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800 flex gap-3"
+        >
+          <.icon
+            name="hero-information-circle"
+            class="size-5 text-blue-600 dark:text-blue-400 shrink-0"
+          />
           <div class="text-xs text-blue-700 dark:text-blue-300">
             <p class="font-bold">Local Mail Adapter active</p>
+            
             <p class="mt-1">
               Sent emails are available at <.link href="/dev/mailbox" class="font-bold underline">/dev/mailbox</.link>.
             </p>
           </div>
         </div>
-
+        
         <.form
           :let={f}
           for={@form}
@@ -55,7 +62,6 @@ defmodule FusionFlowWeb.UserLive.Login do
             placeholder="••••••••"
             required
           />
-
           <div class="pt-2">
             <.button
               variant="primary"
@@ -87,6 +93,7 @@ defmodule FusionFlowWeb.UserLive.Login do
   def handle_event("submit_password", _params, socket) do
     {:noreply, assign(socket, :trigger_submit, true)}
   end
+
   defp local_mail_adapter? do
     Application.get_env(:fusion_flow, FusionFlow.Mailer)[:adapter] == Swoosh.Adapters.Local
   end

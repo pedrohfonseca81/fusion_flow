@@ -68,9 +68,10 @@ defmodule FusionFlowWeb.CoreComponents do
         <.icon :if={@kind == :error} name="hero-exclamation-circle" class="size-5 shrink-0" />
         <div>
           <p :if={@title} class="font-semibold">{@title}</p>
+          
           <p>{msg}</p>
         </div>
-        <div class="flex-1" />
+         <div class="flex-1" />
         <button type="button" class="group self-start cursor-pointer" aria-label={gettext("close")}>
           <.icon name="hero-x-mark" class="size-5 opacity-40 group-hover:opacity-70" />
         </button>
@@ -95,20 +96,20 @@ defmodule FusionFlowWeb.CoreComponents do
 
   def button(assigns) do
     variants = %{
-      "primary" =>
-        "bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm focus:ring-indigo-500",
+      "primary" => "bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm focus:ring-indigo-500",
       "outline" =>
         "bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 border-none",
       "ghost" =>
         "bg-transparent hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300 border-none shadow-none",
       "success" =>
         "bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm focus:ring-emerald-500",
-      "danger" =>
-        "bg-rose-600 hover:bg-rose-700 text-white shadow-sm focus:ring-rose-500",
+      "danger" => "bg-rose-600 hover:bg-rose-700 text-white shadow-sm focus:ring-rose-500",
       nil => "bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm focus:ring-indigo-500"
     }
 
-    base_classes = "inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg transition-all focus:ring-2 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+    base_classes =
+      "inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg transition-all focus:ring-2 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+
     variant_classes = Map.get(variants, assigns[:variant])
 
     assigns =
@@ -116,15 +117,11 @@ defmodule FusionFlowWeb.CoreComponents do
 
     if assigns.rest[:href] || assigns.rest[:navigate] || assigns.rest[:patch] do
       ~H"""
-      <.link class={@class} {@rest}>
-        {render_slot(@inner_block)}
-      </.link>
+      <.link class={@class} {@rest}>{render_slot(@inner_block)}</.link>
       """
     else
       ~H"""
-      <button class={@class} {@rest}>
-        {render_slot(@inner_block)}
-      </button>
+      <button class={@class} {@rest}>{render_slot(@inner_block)}</button>
       """
     end
   end
@@ -257,14 +254,13 @@ defmodule FusionFlowWeb.CoreComponents do
           {@rest}
         >
           <option :if={@prompt} value="">{@prompt}</option>
-          {Phoenix.HTML.Form.options_for_select(@options, @value)}
+           {Phoenix.HTML.Form.options_for_select(@options, @value)}
         </select>
       </label>
       <.error :for={msg <- @errors}>{msg}</.error>
     </div>
     """
   end
-
 
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
@@ -301,7 +297,10 @@ defmodule FusionFlowWeb.CoreComponents do
   attr :errors, :list, default: []
   attr :error_class, :any, default: nil
   attr :class, :any, default: nil
-  attr :rest, :global, include: ~w(cols rows disabled maxlength minlength placeholder readonly required autofocus autocomplete)
+
+  attr :rest, :global,
+    include:
+      ~w(cols rows disabled maxlength minlength placeholder readonly required autofocus autocomplete)
 
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:description]"
@@ -321,8 +320,7 @@ defmodule FusionFlowWeb.CoreComponents do
     ~H"""
     <div class={["fieldset mb-2", @class]}>
       <label>
-        <span :if={@label} class="label mb-1">{@label}</span>
-        <textarea
+        <span :if={@label} class="label mb-1">{@label}</span> <textarea
           id={@id}
           name={@name}
           class={[
@@ -341,8 +339,7 @@ defmodule FusionFlowWeb.CoreComponents do
   defp error(assigns) do
     ~H"""
     <p class="mt-1.5 flex gap-2 items-center text-sm text-error">
-      <.icon name="hero-exclamation-circle" class="size-5" />
-      {render_slot(@inner_block)}
+      <.icon name="hero-exclamation-circle" class="size-5" /> {render_slot(@inner_block)}
     </p>
     """
   end
@@ -358,13 +355,11 @@ defmodule FusionFlowWeb.CoreComponents do
     ~H"""
     <header class={[@actions != [] && "flex items-center justify-between gap-6", "pb-4"]}>
       <div>
-        <h1 class="text-lg font-semibold leading-8">
-          {render_slot(@inner_block)}
-        </h1>
-        <p :if={@subtitle != []} class="text-sm text-base-content/70">
-          {render_slot(@subtitle)}
-        </p>
+        <h1 class="text-lg font-semibold leading-8">{render_slot(@inner_block)}</h1>
+        
+        <p :if={@subtitle != []} class="text-sm text-base-content/70">{render_slot(@subtitle)}</p>
       </div>
+      
       <div class="flex-none">{render_slot(@actions)}</div>
     </header>
     """
@@ -406,11 +401,11 @@ defmodule FusionFlowWeb.CoreComponents do
       <thead>
         <tr>
           <th :for={col <- @col}>{col[:label]}</th>
-          <th :if={@action != []}>
-            <span class="sr-only">{gettext("Actions")}</span>
-          </th>
+          
+          <th :if={@action != []}><span class="sr-only">{gettext("Actions")}</span></th>
         </tr>
       </thead>
+      
       <tbody id={@id} phx-update={is_struct(@rows, Phoenix.LiveView.LiveStream) && "stream"}>
         <tr :for={row <- @rows} id={@row_id && @row_id.(row)}>
           <td
@@ -420,6 +415,7 @@ defmodule FusionFlowWeb.CoreComponents do
           >
             {render_slot(col, @row_item.(row))}
           </td>
+          
           <td :if={@action != []} class="w-0 font-semibold">
             <div class="flex gap-4">
               <%= for action <- @action do %>
@@ -453,6 +449,7 @@ defmodule FusionFlowWeb.CoreComponents do
       <li :for={item <- @item} class="list-row">
         <div class="list-col-grow">
           <div class="font-bold">{item.title}</div>
+          
           <div>{render_slot(item)}</div>
         </div>
       </li>

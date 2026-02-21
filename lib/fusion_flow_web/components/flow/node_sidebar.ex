@@ -11,7 +11,7 @@ defmodule FusionFlowWeb.Components.Flow.NodeSidebar do
           Nodes
         </h2>
       </div>
-      
+
       <div class="flex-1 overflow-y-auto pt-4 pb-4 space-y-6">
         <%= for {category, nodes} <- @nodes_by_category do %>
           <% {label, color_class} = category_meta(category) %>
@@ -19,7 +19,7 @@ defmodule FusionFlowWeb.Components.Flow.NodeSidebar do
             <h3 class="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-2 px-4">
               {label}
             </h3>
-            
+
             <div class="space-y-0.5">
               <%= for node <- nodes do %>
                 <% is_active =
@@ -57,9 +57,10 @@ defmodule FusionFlowWeb.Components.Flow.NodeSidebar do
                       )
                     ]}>
                       {node.icon}
-                    </span> {node.name}
+                    </span>
+                     {node.name}
                   </div>
-                  
+
                   <%= if not is_active do %>
                     <span class="text-[10px] uppercase font-bold text-gray-400 dark:text-slate-600 tracking-wider">
                       Coming Soon

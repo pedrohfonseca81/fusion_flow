@@ -758,7 +758,7 @@ defmodule FusionFlowWeb.FlowLive do
             "Drag to canvas": "<%= gettext("Drag to canvas") %>"
           };
         </script>
-        
+
         <div
           class="flex-1 relative bg-gray-100 dark:bg-slate-900"
           id="rete-container"
@@ -772,7 +772,7 @@ defmodule FusionFlowWeb.FlowLive do
           </div>
         </div>
       </div>
-      
+
       <FusionFlowWeb.Components.Modals.CodeEditorModal.code_editor_modal
         modal_open={@modal_open}
         current_code_tab={@current_code_tab}

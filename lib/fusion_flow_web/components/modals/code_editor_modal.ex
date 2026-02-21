@@ -26,7 +26,7 @@ defmodule FusionFlowWeb.Components.Modals.CodeEditorModal do
               </span>
               Edit Code
             </h3>
-
+            
             <.button
               variant="ghost"
               phx-click="close_modal"
@@ -35,7 +35,7 @@ defmodule FusionFlowWeb.Components.Modals.CodeEditorModal do
               <.icon name="hero-x-mark" class="h-6 w-6" />
             </.button>
           </div>
-
+          
           <div class="flex border-b border-gray-200 dark:border-slate-700 px-6 bg-gray-50 dark:bg-slate-800/50">
             <button
               type="button"
@@ -64,7 +64,7 @@ defmodule FusionFlowWeb.Components.Modals.CodeEditorModal do
               </span>
             </button>
           </div>
-
+          
           <form phx-submit="save_code" class="flex-1 flex flex-col overflow-hidden">
             <div
               class="flex-1 p-0 overflow-hidden relative bg-[#1e1e1e]"
@@ -80,7 +80,7 @@ defmodule FusionFlowWeb.Components.Modals.CodeEditorModal do
                 class="w-full h-full hidden"
               ><%= @current_code_python %></textarea>
             </div>
-
+            
             <div class="px-6 py-4 bg-white dark:bg-slate-800 border-t border-gray-200 dark:border-slate-700 flex justify-end gap-3 rounded-b-lg">
               <.button
                 type="button"
@@ -93,8 +93,7 @@ defmodule FusionFlowWeb.Components.Modals.CodeEditorModal do
                 type="submit"
                 variant="success"
               >
-                <.icon name="hero-check" class="w-4 h-4 mr-1" />
-                {gettext("Save Changes")}
+                <.icon name="hero-check" class="w-4 h-4 mr-1" /> {gettext("Save Changes")}
               </.button>
             </div>
           </form>

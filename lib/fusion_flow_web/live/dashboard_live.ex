@@ -27,12 +27,12 @@ defmodule FusionFlowWeb.DashboardLive do
       <div class="flex items-center justify-between mb-8">
         <div>
           <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{gettext("Dashboard")}</h1>
-
+          
           <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
             {gettext("Welcome back to FusionFlow! Here's an overview of your automated logic.")}
           </p>
         </div>
-
+        
         <.button
           navigate={~p"/flows"}
           variant="primary"
@@ -40,14 +40,14 @@ defmodule FusionFlowWeb.DashboardLive do
           {gettext("Manage Flows")}
         </.button>
       </div>
-
+      
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div class="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-6 shadow-sm">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">
               {gettext("Total Workflows")}
             </h3>
-
+            
             <div class="p-2 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-lg">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
@@ -61,13 +61,13 @@ defmodule FusionFlowWeb.DashboardLive do
           </div>
            <span class="text-3xl font-bold text-gray-900 dark:text-white">{@active_count}</span>
         </div>
-
+        
         <div class="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-6 shadow-sm">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">
               {gettext("Total Processed Nodes")}
             </h3>
-
+            
             <div class="p-2 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-lg">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
@@ -82,13 +82,13 @@ defmodule FusionFlowWeb.DashboardLive do
            <span class="text-3xl font-bold text-gray-900 dark:text-white">--</span>
           <p class="text-xs text-gray-400 mt-1 placeholder-text">Coming soon</p>
         </div>
-
+        
         <div class="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-6 shadow-sm">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">
               {gettext("Active Integrations")}
             </h3>
-
+            
             <div class="p-2 bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 rounded-lg">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
@@ -104,12 +104,12 @@ defmodule FusionFlowWeb.DashboardLive do
           <p class="text-xs text-gray-400 mt-1 placeholder-text">Coming soon</p>
         </div>
       </div>
-
+      
       <div>
         <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           {gettext("Recent Workflows")}
         </h2>
-
+        
         <%= if Enum.empty?(@flows) do %>
           <div class="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-8 text-center shadow-sm">
             <div class="mx-auto w-12 h-12 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-3">
@@ -122,13 +122,13 @@ defmodule FusionFlowWeb.DashboardLive do
                 />
               </svg>
             </div>
-
+            
             <h3 class="text-sm font-medium text-gray-900 dark:text-white">{gettext("No flows")}</h3>
-
+            
             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
               {gettext("Get started by creating a new workflow automation.")}
             </p>
-
+            
             <div class="mt-6">
               <.button
                 navigate={~p"/flows"}
@@ -158,18 +158,18 @@ defmodule FusionFlowWeb.DashboardLive do
                           />
                         </svg>
                       </div>
-
+                      
                       <div>
                         <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
                           {flow.name}
                         </p>
-
+                        
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                           {length(flow.nodes || [])} nodes • {length(flow.connections || [])} connections
                         </p>
                       </div>
                     </div>
-
+                    
                     <div>
                       <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                         <path

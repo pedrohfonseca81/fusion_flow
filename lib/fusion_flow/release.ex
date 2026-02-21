@@ -60,9 +60,9 @@ defmodule FusionFlow.Release do
     end
   end
 
-defp priv_path(filename) do
-  Path.join([:code.priv_dir(@app), "repo", filename])
-end
+  defp priv_path(filename) do
+    Path.join([:code.priv_dir(@app), "repo", filename])
+  end
 
   defp repos do
     Application.fetch_env!(@app, :ecto_repos)

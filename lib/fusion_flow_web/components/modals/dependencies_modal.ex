@@ -19,12 +19,12 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
               Project Dependencies
             </h3>
-
+            
             <.button variant="ghost" phx-click="close_dependencies_modal" class="p-1">
               <.icon name="hero-x-mark" class="h-6 w-6" />
             </.button>
           </div>
-
+          
           <div class="flex border-b border-gray-200 dark:border-slate-800 px-6 pt-2">
             <button
               phx-click="switch_dependencies_tab"
@@ -48,7 +48,7 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
               JavaScript (NPM)
             </button>
           </div>
-
+          
           <div class="p-6 flex-1 overflow-y-auto">
             <%= if @dependencies_tab == "elixir" do %>
               <div class="space-y-6">
@@ -64,7 +64,7 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
                           />
                         </svg>
                       </div>
-
+                      
                       <div class="ml-3">
                         <p class="text-sm text-yellow-700 dark:text-yellow-200">
                           The following dependencies require a server restart: <span class="font-bold"><%= Enum.join(@pending_restart_deps, ", ") %></span>.
@@ -74,10 +74,13 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
                     </div>
                   </div>
                 <% end %>
-
+                
                 <div class="relative">
                   <form phx-submit="search_dependency" phx-change="search_dependency">
-                    <.icon name="hero-magnifying-glass" class="w-5 h-5 text-gray-400 absolute left-3 top-3.5 z-10" />
+                    <.icon
+                      name="hero-magnifying-glass"
+                      class="w-5 h-5 text-gray-400 absolute left-3 top-3.5 z-10"
+                    />
                     <.input
                       type="text"
                       name="query"
@@ -88,13 +91,13 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
                     />
                   </form>
                 </div>
-
+                
                 <%= if @search_results != [] do %>
                   <div>
                     <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
                       Search Results
                     </h4>
-
+                    
                     <div class="grid grid-cols-1 gap-3">
                       <%= for pkg <- @search_results do %>
                         <div class="flex items-center justify-between p-3 border border-gray-200 dark:border-slate-800 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800/50">
@@ -105,10 +108,10 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
                                 {pkg.latest_version}
                               </span>
                             </div>
-
+                            
                             <p class="text-sm text-gray-500 mt-1 line-clamp-1">{pkg.description}</p>
                           </div>
-
+                          
                           <%= if pkg.name in @pending_restart_deps do %>
                             <.button
                               disabled
@@ -118,22 +121,22 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
                               {gettext("Restart Required")}
                             </.button>
                           <% else %>
-                             <.button
-                               phx-click="install_dependency"
-                               phx-value-name={pkg.name}
-                               phx-value-version={pkg.latest_version}
-                               variant="primary"
-                               class="px-3 py-1.5 text-xs"
-                             >
-                               {gettext("Install")}
-                             </.button>
+                            <.button
+                              phx-click="install_dependency"
+                              phx-value-name={pkg.name}
+                              phx-value-version={pkg.latest_version}
+                              variant="primary"
+                              class="px-3 py-1.5 text-xs"
+                            >
+                              {gettext("Install")}
+                            </.button>
                           <% end %>
                         </div>
                       <% end %>
                     </div>
                   </div>
                 <% end %>
-
+                
                 <%= if @installing_dep do %>
                   <div class="border border-gray-200 dark:border-slate-800 rounded-lg overflow-hidden flex flex-col mt-4">
                     <div class="px-4 py-3 bg-gray-50 dark:bg-slate-800/80 border-b border-gray-200 dark:border-slate-800 flex items-center gap-2">
@@ -160,7 +163,7 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
                         Installing {@installing_dep}...
                       </span>
                     </div>
-
+                    
                     <div class="bg-black p-4 h-40 overflow-y-auto font-mono text-xs text-green-400">
                       <%= for log <- @terminal_logs do %>
                         <div>{log}</div>
@@ -168,12 +171,12 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
                     </div>
                   </div>
                 <% end %>
-
+                
                 <div>
                   <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
                     Installed in mix.exs
                   </h4>
-
+                  
                   <div class="border rounded-lg overflow-hidden border-gray-200 dark:border-slate-800 mt-2">
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-800">
                       <thead class="bg-gray-50 dark:bg-slate-800/50">
@@ -181,28 +184,28 @@ defmodule FusionFlowWeb.Components.Modals.DependenciesModal do
                           <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Name
                           </th>
-
+                          
                           <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Version
                           </th>
-
+                          
                           <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Action
                           </th>
                         </tr>
                       </thead>
-
+                      
                       <tbody class="bg-white dark:bg-slate-900 divide-y divide-gray-200 dark:divide-slate-800">
                         <%= for dep <- @installed_deps do %>
                           <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                               {dep.name}
                             </td>
-
+                            
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                               {dep.version}
                             </td>
-
+                            
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                               <%= if dep.name in @pending_restart_deps do %>
                                 <span class="text-yellow-600 font-bold flex justify-end gap-1 items-center">

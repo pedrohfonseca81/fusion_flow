@@ -23,13 +23,13 @@ defmodule FusionFlowWeb.Components.Flow.FlowHeader do
               />
             </svg>
           </div>
-
+          
           <span class="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400">
             FusionFlow
           </span>
         </.link>
         <div class="h-8 w-px bg-gray-200 dark:bg-slate-700 hidden sm:block"></div>
-
+        
         <div class="hidden sm:block">
           <%= if @renaming_flow do %>
             <form
@@ -58,7 +58,7 @@ defmodule FusionFlowWeb.Components.Flow.FlowHeader do
               <h1 class="text-base font-bold text-gray-900 dark:text-white leading-tight">
                 {@flow.name}
               </h1>
-
+              
               <.button
                 phx-click="edit_flow_name"
                 variant="ghost"
@@ -69,14 +69,14 @@ defmodule FusionFlowWeb.Components.Flow.FlowHeader do
               </.button>
             </div>
           <% end %>
-
+          
           <div class="flex items-center gap-1.5 mt-0.5">
             <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
             <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Active Session</p>
           </div>
         </div>
       </div>
-
+      
       <div class="flex items-center gap-3">
         <.button
           href={~p"/flows"}
@@ -88,7 +88,7 @@ defmodule FusionFlowWeb.Components.Flow.FlowHeader do
           <span class="hidden sm:inline">Flows</span>
         </.button>
         <div class="h-5 w-px bg-gray-200 dark:bg-slate-700 mx-1"></div>
-
+        
         <.button
           phx-click="open_dependencies_modal"
           variant="outline"
@@ -102,8 +102,7 @@ defmodule FusionFlowWeb.Components.Flow.FlowHeader do
           variant="success"
           class="h-9 px-4"
         >
-          <.icon name="hero-play" class="w-4 h-4" />
-          <span>Run Flow</span>
+          <.icon name="hero-play" class="w-4 h-4" /> <span>Run Flow</span>
         </.button>
       </div>
     </header>

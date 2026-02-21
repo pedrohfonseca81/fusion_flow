@@ -22,7 +22,7 @@ defmodule FusionFlowWeb.Components.Modals.ErrorModal do
               </svg>
               Node Execution Error
             </h3>
-
+            
             <.button
               variant="ghost"
               phx-click="close_error_modal"
@@ -31,25 +31,25 @@ defmodule FusionFlowWeb.Components.Modals.ErrorModal do
               <.icon name="hero-x-mark" class="h-6 w-6" />
             </.button>
           </div>
-
+          
           <div class="p-6 overflow-y-auto">
             <div class="mb-4">
               <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Node ID:</p>
-
+              
               <code class="px-2 py-1 bg-gray-100 dark:bg-slate-900 rounded text-sm text-gray-700 dark:text-gray-300 font-mono">
                 {@current_error_node_id}
               </code>
             </div>
-
+            
             <div>
               <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Error Message:</p>
-
+              
               <div class="p-4 bg-gray-50 dark:bg-slate-900/50 rounded-lg border border-gray-200 dark:border-slate-700 overflow-x-auto">
                 <pre class="text-sm text-red-600 dark:text-red-400 font-mono whitespace-pre-wrap">{@current_error_message}</pre>
               </div>
             </div>
           </div>
-
+          
           <div class="px-6 py-4 border-t border-gray-200 dark:border-slate-700 flex justify-end">
             <.button
               phx-click="close_error_modal"

@@ -18,7 +18,6 @@ defmodule FusionFlowWeb.Router do
     plug :accepts, ["json"]
   end
 
-
   # JSON API Scope
   scope "/api", FusionFlowWeb do
     pipe_through :api

@@ -35,21 +35,20 @@ defmodule FusionFlowWeb.FlowListLive do
       <div class="flex items-center justify-between mb-8">
         <div>
           <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{gettext("My Flows")}</h1>
-
+          
           <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
             {length(@flows)} {gettext("Flows available")}
           </p>
         </div>
-
+        
         <.button
           phx-click="create_flow"
           variant="primary"
         >
-          <.icon name="hero-plus" class="h-4 w-4 mr-1" />
-          {gettext("New Flow")}
+          <.icon name="hero-plus" class="h-4 w-4 mr-1" /> {gettext("New Flow")}
         </.button>
       </div>
-
+      
       <div>
         <%= if Enum.empty?(@flows) do %>
           <div class="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-12 text-center shadow-sm">
@@ -68,22 +67,21 @@ defmodule FusionFlowWeb.FlowListLive do
                 />
               </svg>
             </div>
-
+            
             <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-1">
               {gettext("No flows created yet")}
             </h3>
-
+            
             <p class="text-gray-500 dark:text-gray-400 mb-6 max-w-sm mx-auto text-center">
               {gettext("Get started by creating your first workflow automation. It's easy!")}
             </p>
-
+            
             <.button
               phx-click="create_flow"
               variant="primary"
               class="px-6 py-3"
             >
-              <.icon name="hero-plus" class="h-5 w-5 mr-1" />
-              {gettext("Create your first flow")}
+              <.icon name="hero-plus" class="h-5 w-5 mr-1" /> {gettext("Create your first flow")}
             </.button>
           </div>
         <% else %>
@@ -106,12 +104,12 @@ defmodule FusionFlowWeb.FlowListLive do
                           />
                         </svg>
                       </div>
-
+                      
                       <div>
                         <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
                           {flow.name}
                         </p>
-
+                        
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                           {length(flow.nodes || [])} {gettext("nodes")} • {length(
                             flow.connections || []
@@ -122,7 +120,7 @@ defmodule FusionFlowWeb.FlowListLive do
                         </p>
                       </div>
                     </div>
-
+                    
                     <div>
                       <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                         <path
