@@ -1,6 +1,6 @@
 # FusionFlow
 
-[![Discord](https://img.shields.io/discord/1342308064887373844?color=7289da&label=discord&logo=discord&logoColor=white)](https://discord.gg/7zjnpna239)
+[![Discord](https://img.shields.io/discord/1474594465225117740?color=7289da&label=discord&logo=discord&logoColor=white)](https://discord.gg/7zjnpna239)
 
 **FusionFlow** is a powerful, low-code workflow automation platform equipped with advanced no-code capabilities. Designed for reliability and scalability, it enables users to visually design, manage, and execute complex business logic and data processing flows in real-time.
 
