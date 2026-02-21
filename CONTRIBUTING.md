@@ -22,4 +22,5 @@ We welcome contributions to FusionFlow! Whether you're fixing bugs, adding new n
 
 -   **Node Development**: New nodes should be added to `lib/fusion_flow/nodes/`. Follow the structure of existing nodes (separated `definition/0` and `handler/2`).
 -   **UI Components**: We use Phoenix LiveView for the UI. Ensure any new JS components in `assets/js` are properly integrated via hooks.
+-   **Code Formatting**: Always run `mix format` before committing to maintain consistent code style.
 -   **Testing**: Run `mix test` to ensure no regressions.
