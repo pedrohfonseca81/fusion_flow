@@ -263,12 +263,12 @@ defmodule FusionFlowWeb.FlowAiCreatorLive do
               />
             </svg>
           </div>
-          
+
           <div>
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
               {gettext("Create Flow with AI")}
             </h1>
-            
+
             <p class="text-sm text-gray-500 dark:text-slate-400 mt-1">
               {gettext(
                 "Describe what you want to automate, and I will build the flow structure for you."
@@ -277,7 +277,7 @@ defmodule FusionFlowWeb.FlowAiCreatorLive do
           </div>
         </div>
       </div>
-      
+
       <div
         class="flex-1 overflow-y-auto w-full p-4 md:p-8 scroll-smooth"
         id="ai-chat-messages"
@@ -302,7 +302,7 @@ defmodule FusionFlowWeb.FlowAiCreatorLive do
               <h3 class="text-lg font-medium text-gray-900 dark:text-white">
                 {gettext("How can I help you today?")}
               </h3>
-              
+
               <p class="text-sm mt-2 max-w-sm">
                 {gettext(
                   "For example: 'Create a flow that listens to a webhook, logs the payload and saves it into the database.'"
@@ -310,7 +310,7 @@ defmodule FusionFlowWeb.FlowAiCreatorLive do
               </p>
             </div>
           <% end %>
-          
+
           <%= for {role, content} <- @messages, not (role == :ai and content == "") do %>
             <div class={"flex w-full " <> if(role == :user, do: "justify-end", else: "justify-start")}>
               <div class={"max-w-[85%] rounded-2xl px-5 py-4 text-sm leading-relaxed prose prose-sm dark:prose-invert " <>
@@ -329,7 +329,7 @@ defmodule FusionFlowWeb.FlowAiCreatorLive do
               </div>
             </div>
           <% end %>
-          
+
           <%= if @loading and (List.last(@messages) |> elem(1)) == "" do %>
             <div class="flex justify-start w-full">
               <div class="max-w-[85%] rounded-2xl px-5 py-4 text-sm bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 rounded-bl-none border border-gray-200 dark:border-slate-700 shadow-sm dark:shadow-none">
@@ -341,7 +341,7 @@ defmodule FusionFlowWeb.FlowAiCreatorLive do
               </div>
             </div>
           <% end %>
-          
+
           <%= if @ai_awaiting_approval and not @loading do %>
             <div class="flex justify-start w-full mt-4">
               <div class="ml-4 p-4 rounded-xl border-2 border-indigo-100 dark:border-indigo-900/50 bg-indigo-50/50 dark:bg-slate-800/50 flex flex-col gap-3">
@@ -349,12 +349,12 @@ defmodule FusionFlowWeb.FlowAiCreatorLive do
                   {gettext("Are you happy with this implementation plan?")}
                 </span>
                 <div class="flex items-center gap-2">
-                  <button
+                  <.button
                     phx-click="approve_plan"
-                    class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg shadow-sm hover:bg-indigo-700 transition"
+                    variant="primary"
                   >
                     {gettext("Yes, Build This Flow")}
-                  </button>
+                  </.button>
                   <span class="text-xs text-gray-400 px-2">
                     {gettext("Or reply below with adjustments")}
                   </span>
@@ -364,14 +364,14 @@ defmodule FusionFlowWeb.FlowAiCreatorLive do
           <% end %>
         </div>
       </div>
-      
+
       <div class="p-4 bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 flex-shrink-0">
         <form phx-submit="send_message" class="max-w-4xl mx-auto flex gap-3 relative items-center">
-          <textarea
+          <.textarea
             name="content"
             id="ai-flow-input"
             phx-hook="FocusInput"
-            class="flex-1 w-full bg-slate-50 dark:bg-slate-800 border border-gray-300 dark:border-slate-700 rounded-xl px-5 py-3 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-sm resize-none"
+            class="flex-1 mb-0"
             placeholder={gettext("Type your prompt here...")}
             autocomplete="off"
             phx-mounted={JS.focus()}
@@ -379,11 +379,12 @@ defmodule FusionFlowWeb.FlowAiCreatorLive do
             autofocus
             rows="3"
             onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); this.form.dispatchEvent(new Event('submit', {bubbles: true, cancelable: true})); }"
-          ></textarea>
-          <button
+          />
+          <.button
             type="submit"
             disabled={@loading}
-            class="p-3 bg-indigo-600 text-white rounded-xl shadow-sm hover:bg-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center w-[46px] h-[46px] flex-shrink-0"
+            variant="primary"
+            class="!p-0 w-[46px] h-[46px] flex-shrink-0"
             title={gettext("Send")}
           >
             <%= if @loading do %>
@@ -391,7 +392,7 @@ defmodule FusionFlowWeb.FlowAiCreatorLive do
             <% else %>
               <.icon name="hero-chevron-right" class="w-6 h-6 stroke-2" />
             <% end %>
-          </button>
+          </.button>
         </form>
       </div>
     </div>

@@ -16,5 +16,8 @@ done
 
 echo "Migrations successful!"
 
+echo "Running seeds..."
+/app/bin/fusion_flow eval "FusionFlow.Release.seed"
+
 echo "Starting application..."
 exec /app/bin/fusion_flow start

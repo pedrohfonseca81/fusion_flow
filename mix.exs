@@ -40,6 +40,7 @@ defmodule FusionFlow.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:pbkdf2_elixir, "~> 2.0"},
       {:tesla, "~> 1.16.0"},
       {:req, "~> 0.5"},
       {:oban, "~> 2.0"},

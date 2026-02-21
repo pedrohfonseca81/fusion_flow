@@ -35,31 +35,21 @@ defmodule FusionFlowWeb.FlowListLive do
       <div class="flex items-center justify-between mb-8">
         <div>
           <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{gettext("My Flows")}</h1>
-          
+
           <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
             {length(@flows)} {gettext("Flows available")}
           </p>
         </div>
-        
-        <button
+
+        <.button
           phx-click="create_flow"
-          class="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg shadow-sm transition-all focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          variant="primary"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-4 w-4"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-              clip-rule="evenodd"
-            />
-          </svg> {gettext("New Flow")}
-        </button>
+          <.icon name="hero-plus" class="h-4 w-4 mr-1" />
+          {gettext("New Flow")}
+        </.button>
       </div>
-      
+
       <div>
         <%= if Enum.empty?(@flows) do %>
           <div class="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-12 text-center shadow-sm">
@@ -78,32 +68,23 @@ defmodule FusionFlowWeb.FlowListLive do
                 />
               </svg>
             </div>
-            
+
             <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-1">
               {gettext("No flows created yet")}
             </h3>
-            
+
             <p class="text-gray-500 dark:text-gray-400 mb-6 max-w-sm mx-auto text-center">
               {gettext("Get started by creating your first workflow automation. It's easy!")}
             </p>
-            
-            <button
+
+            <.button
               phx-click="create_flow"
-              class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors shadow-sm"
+              variant="primary"
+              class="px-6 py-3"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                  clip-rule="evenodd"
-                />
-              </svg> {gettext("Create your first flow")}
-            </button>
+              <.icon name="hero-plus" class="h-5 w-5 mr-1" />
+              {gettext("Create your first flow")}
+            </.button>
           </div>
         <% else %>
           <div class="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm overflow-hidden">
@@ -125,12 +106,12 @@ defmodule FusionFlowWeb.FlowListLive do
                           />
                         </svg>
                       </div>
-                      
+
                       <div>
                         <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
                           {flow.name}
                         </p>
-                        
+
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                           {length(flow.nodes || [])} {gettext("nodes")} • {length(
                             flow.connections || []
@@ -141,7 +122,7 @@ defmodule FusionFlowWeb.FlowListLive do
                         </p>
                       </div>
                     </div>
-                    
+
                     <div>
                       <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                         <path
