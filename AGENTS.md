@@ -209,6 +209,100 @@ Controllers automatically have the `current_scope` available if they use the `:b
       assert_receive {:DOWN, ^ref, :process, ^pid, :normal}
 
    - Instead of sleeping to synchronize before the next call, **always** use `_ = :sys.get_state/1` to ensure the process has handled prior messages
+
+## Creating Tests
+
+After implementing any new module, **always create corresponding tests**. Follow these patterns:
+
+### Testing Contexts (Ecto)
+
+    defmodule MyApp.MyContextTest do
+      use MyApp.DataCase
+
+      alias MyApp.MyContext
+
+      describe "my_function/1" do
+        test "does expected behavior" do
+          assert {:ok, result} = MyContext.my_function("input")
+          assert result.value == "expected"
+        end
+
+        test "returns error with invalid input" do
+          assert {:error, %Ecto.Changeset{}} = MyContext.my_function("")
+        end
+      end
+    end
+
+### Testing Controllers
+
+    defmodule MyAppWeb.MyControllerTest do
+      use MyAppWeb.ConnCase, async: true
+
+      describe "index" do
+        test "lists all items", %{conn: conn} do
+          conn = get(conn, ~p"/api/items")
+          assert %{"data" => _items} = json_response(conn, 200)
+        end
+      end
+    end
+
+### Testing LiveViews
+
+    defmodule MyAppWeb.MyLiveViewTest do
+      use MyAppWeb.ConnCase, async: true
+
+      import Phoenix.LiveViewTest
+
+      describe "mount" do
+        test "requires authentication", %{conn: conn} do
+          assert {:error, redirect} = live(conn, ~p"/protected")
+          assert {:redirect, %{to: path}} = redirect
+          assert path == ~p"/users/log-in"
+        end
+
+        test "renders page when authenticated", %{conn: conn} do
+          {:ok, _lv, html} =
+            conn
+            |> log_in_user(user_fixture())
+            |> live(~p"/protected")
+
+          assert html =~ "Expected Content"
+        end
+      end
+    end
+
+### Testing Plugs
+
+    defmodule MyAppWeb.Plugs.MyPlugTest do
+      use MyAppWeb.ConnCase, async: true
+
+      alias MyAppWeb.Plugs.MyPlug
+
+      describe "call/2" do
+        test "sets assigns from params", %{conn: conn} do
+          conn =
+            conn
+            |> init_test_session(%{})
+            |> Map.put(:params, %{"locale" => "pt_BR"})
+            |> Plug.Conn.fetch_query_params()
+
+          conn = MyPlug.call(conn, nil)
+          assert conn.assigns.locale == "pt_BR"
+        end
+      end
+    end
+
+### Testing Modules (Unit Tests)
+
+    defmodule MyApp.MyModuleTest do
+      use ExUnit.Case, async: true
+
+      describe "my_function/1" do
+        test "returns expected result" do
+          assert MyApp.my_function("input") == :expected
+        end
+      end
+    end
 <!-- phoenix:elixir-end -->
 
 <!-- phoenix:phoenix-start -->
