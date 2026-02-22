@@ -9,12 +9,15 @@ defmodule FusionFlow.AccountsFixtures do
   alias FusionFlow.Accounts
   alias FusionFlow.Accounts.Scope
 
+  def unique_user_username, do: "user#{System.unique_integer([:positive])}"
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
   def valid_user_password, do: "hello world!"
 
   def valid_user_attributes(attrs \\ %{}) do
     Enum.into(attrs, %{
-      email: unique_user_email()
+      email: unique_user_email(),
+      username: unique_user_username(),
+      password: valid_user_password()
     })
   end
 
@@ -59,7 +62,10 @@ defmodule FusionFlow.AccountsFixtures do
 
   def extract_user_token(fun) do
     {:ok, captured_email} = fun.(&"[TOKEN]#{&1}[TOKEN]")
-    [_, token | _] = String.split(captured_email.text_body, "[TOKEN]")
+
+    [_, token | _] =
+      String.split(Map.get(captured_email, :text_body, captured_email.body), "[TOKEN]")
+
     token
   end
 
